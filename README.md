@@ -1,4 +1,4 @@
-# CH2-PS452 || Bangkit Product Capstone || DestiMate
+#  Mobile Programming Project || Farm Aid : Scan & Detect Disease
 
 <p align="center">
     <img src="https://github.com/mausneg/CH2-PS452-Capstone/blob/main/Profile/DestiMate.png" alt="DestiMate"><br>
