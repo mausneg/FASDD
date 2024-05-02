@@ -15,6 +15,15 @@
         <activity
             android:name=".WeatherActivity"
             android:exported="false" />
+      <activity
+            android:name=".Login"
+            android:exported="false" />
+        <activity
+            android:name=".ScanPlant"
+            android:exported="false" />
+      <activity
+            android:name=".NewsActivity"
+            android:exported="false" />
         <activity
             android:name=".HomeActivity"
             android:exported="true">
