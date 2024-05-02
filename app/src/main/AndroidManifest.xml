@@ -18,6 +18,11 @@
         <activity
             android:name=".ScanPlant"
             android:exported="false" />
+      <activity
+            android:name=".NewsActivity"
+            android:exported="false" />
+
+            android:exported="false" />
         <activity
             android:name=".HomeActivity"
             android:exported="true">
