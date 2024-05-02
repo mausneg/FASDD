@@ -3,10 +3,9 @@ package com.example.fasdd_android
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
-class HomeActivity : AppCompatActivity() {
+class WeatherActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home)
-//        test push
+        setContentView(R.layout.activity_weather)
     }
 }
