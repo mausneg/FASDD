@@ -13,7 +13,15 @@
         android:theme="@style/Theme.Fasdd_android"
         tools:targetApi="31">
         <activity
+            android:name=".Login"
+            android:exported="false" />
+        <activity
+            android:name=".ScanPlant"
+            android:exported="false" />
+      <activity
             android:name=".NewsActivity"
+            android:exported="false" />
+
             android:exported="false" />
         <activity
             android:name=".HomeActivity"
