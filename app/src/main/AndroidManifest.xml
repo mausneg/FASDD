@@ -16,6 +16,9 @@
             android:name=".Login"
             android:exported="false" />
         <activity
+            android:name=".ScanPlant"
+            android:exported="false" />
+        <activity
             android:name=".HomeActivity"
             android:exported="true">
             <intent-filter>
