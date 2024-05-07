@@ -6,4 +6,7 @@
     </style>
 
     <style name="Theme.Fasdd_android" parent="Base.Theme.Fasdd_android" />
+    <style name="App.Custom.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@color/my_light_primary</item>
+    </style>
 </resources>
