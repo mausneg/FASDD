@@ -16,12 +16,13 @@
             android:name=".Login"
             android:exported="false" />
         <activity
+            android:name=".FstShow"
+            android:exported="false" />
+        <activity
             android:name=".ScanPlant"
             android:exported="false" />
-      <activity
+        <activity
             android:name=".NewsActivity"
-            android:exported="false" />
-
             android:exported="false" />
         <activity
             android:name=".HomeActivity"
