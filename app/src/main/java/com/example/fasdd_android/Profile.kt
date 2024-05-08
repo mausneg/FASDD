@@ -16,6 +16,7 @@ class Profile : AppCompatActivity() {
 
         btnBackProfileListener()
         btnLogoutListener()
+        btnEproListener()
     }
 
     private fun btnBackProfileListener(){
@@ -27,6 +28,12 @@ class Profile : AppCompatActivity() {
     private fun btnLogoutListener(){
         binding.btn4Profile.setOnClickListener {
             startActivity(Intent(this, FstShow::class.java))
+        }
+    }
+
+    private fun btnEproListener(){
+        binding.btn2Profile.setOnClickListener {
+            startActivity(Intent(this, EditProfile::class.java))
         }
     }
 }
