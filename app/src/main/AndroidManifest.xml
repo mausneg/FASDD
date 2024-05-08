@@ -13,27 +13,23 @@
         android:theme="@style/Theme.Fasdd_android"
         tools:targetApi="31">
         <activity
-            android:name=".Profile"
+            android:name=".ProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".Register"
+            android:name=".RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".Login"
+            android:name=".LoginActivity"
             android:exported="false" />
         <activity
             android:name=".WeatherActivity"
             android:exported="false" />
 
-      <activity
-            android:name=".Login"
-
-            android:exported="false" />
         <activity
             android:name=".NewsActivity"
             android:exported="false" />
         <activity
-            android:name=".FstShow"
+            android:name=".FstShowActivity"
 
             android:exported="true">
             <intent-filter>

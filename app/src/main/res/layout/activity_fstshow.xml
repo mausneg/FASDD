@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FstShow"
+    tools:context=".FstShowActivity"
     android:background="@color/green">
 
     <ImageView
@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/logofasdd"
         android:layout_centerHorizontal="true"
-        android:fontFamily="@font/poppinssemibold"
+        android:fontFamily="@font/poppins_semibold"
         android:text="@string/langkah_terbaik_untuk_tanaman_anda"
         android:textColor="@color/white"
         android:textSize="18sp"
@@ -43,7 +43,7 @@
         android:layout_below="@id/text1"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="5dp"
-        android:fontFamily="@font/poppinsregular"
+        android:fontFamily="@font/poppins"
         android:text="@string/lorem_ipsum_is_simply_dummy_text_of_the_printing_and_typesetting_industry_lorem_ipsum_has_been_the_industry_s_standard_dummy_text_ever_since_the"
         android:textColor="@color/white"
         android:textSize="14sp"
@@ -59,7 +59,7 @@
         android:layout_marginTop="20dp"
         android:width="350dp"
         android:background="@drawable/button_shape"
-        android:fontFamily="@font/poppinssemibold"
+        android:fontFamily="@font/poppins_semibold"
         android:text="@string/login"
         android:textColor="@color/black"
         android:textSize="16sp" />
@@ -72,7 +72,7 @@
         android:layout_marginTop="15dp"
         android:width="350dp"
         android:background="@drawable/button_shape"
-        android:fontFamily="@font/poppinssemibold"
+        android:fontFamily="@font/poppins_semibold"
         android:text="@string/register"
         android:textColor="@color/black"
         android:textSize="16sp"

@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.fasdd_android.databinding.ActivityFstshowBinding
 
-class FstShow : AppCompatActivity() {
+class FstShowActivity : AppCompatActivity() {
     lateinit var binding : ActivityFstshowBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,13 +18,13 @@ class FstShow : AppCompatActivity() {
 
     private fun btnLoginListener(){
         binding.btn1Fstshow.setOnClickListener {
-            startActivity(Intent(this, Login::class.java))
+            startActivity(Intent(this, LoginActivity::class.java))
         }
     }
 
     private fun btnRegisterListener(){
         binding.btn2Fstshow.setOnClickListener {
-            startActivity(Intent(this, Register::class.java))
+            startActivity(Intent(this, RegisterActivity::class.java))
         }
     }
 }
