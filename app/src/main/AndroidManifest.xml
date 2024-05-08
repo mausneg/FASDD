@@ -22,23 +22,29 @@
             android:name=".Login"
             android:exported="false" />
         <activity
-            android:name=".HomeActivity"
+            android:name=".WeatherActivity"
             android:exported="false" />
-        <activity
-            android:name=".ScanPlant"
+
+      <activity
+            android:name=".Login"
+
             android:exported="false" />
         <activity
             android:name=".NewsActivity"
             android:exported="false" />
         <activity
             android:name=".FstShow"
+
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>
