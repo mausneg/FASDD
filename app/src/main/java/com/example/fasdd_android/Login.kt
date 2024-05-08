@@ -1,11 +1,38 @@
 package com.example.fasdd_android
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.fasdd_android.databinding.ActivityLoginBinding
 
 class Login : AppCompatActivity() {
+    lateinit var binding : ActivityLoginBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        btnBackLoginListener()
+        txtRegisterListener()
+        btnLoginListener()
     }
+
+    private fun btnBackLoginListener(){
+        binding.backLogin.setOnClickListener {
+            startActivity(Intent(this, FstShow::class.java))
+        }
+    }
+
+    private fun txtRegisterListener(){
+        binding.text4Login.setOnClickListener {
+            startActivity(Intent(this, Register::class.java))
+        }
+    }
+
+    private fun btnLoginListener(){
+        binding.btn1Login.setOnClickListener {
+            startActivity(Intent(this, Profile::class.java))
+        }
+    }
+
 }

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Profile"
+    android:background="@color/white">
+
+    <ImageView
+        android:id="@+id/gambar1_profile"
+        android:layout_width="match_parent"
+        android:layout_height="315dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="-83dp"
+        android:src="@drawable/gambar5" />
+
+    <ImageView
+        android:id="@+id/backProfile"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="46dp"
+        android:src="@drawable/back" />
+
+    <TextView
+        android:id="@+id/text1_Profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/gambar1_profile"
+        android:layout_marginTop="-190dp"
+        android:fontFamily="@font/poppinsbold"
+        android:gravity="center_horizontal"
+        android:layout_centerHorizontal="true"
+        android:text="Profile"
+        android:textColor="@color/black"
+        android:textSize="30sp" />
+
+    <ImageView
+        android:id="@+id/logofasdd"
+        android:layout_width="205dp"
+        android:layout_height="269dp"
+        android:layout_below="@id/gambar1_profile"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-149dp"
+        android:src="@drawable/profile" />
+
+    <TextView
+        android:id="@+id/text1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/logofasdd"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-34dp"
+        android:fontFamily="@font/poppinssemibold"
+        android:gravity="center_horizontal"
+        android:text="Victoria Robertson"
+        android:textColor="@color/black"
+        android:textSize="28sp" />
+
+    <TextView
+        android:id="@+id/text2"
+        android:layout_width="360dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text1"
+        android:layout_marginTop="-9dp"
+        android:fontFamily="@font/poppinsregular"
+        android:gravity="center_horizontal"
+        android:padding="10dp"
+        android:layout_centerHorizontal="true"
+        android:text="victor.robert9@unram.ac.id"
+        android:textColor="@color/black"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/btn1_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text2"
+        android:layout_centerHorizontal="true"
+        android:width="350dp"
+        android:backgroundTint="@color/green"
+        android:fontFamily="@font/poppinssemibold"
+        android:text="Bagikan profile"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn1_profile"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:width="350dp"
+        android:backgroundTint="@color/green"
+        android:fontFamily="@font/poppinssemibold"
+        android:text="Edit profile"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:id="@+id/btn2_profile"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn2_profile"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:width="350dp"
+        android:backgroundTint="@color/green"
+        android:fontFamily="@font/poppinssemibold"
+        android:text="History Scan"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:id="@+id/btn3_profile"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn3_profile"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:width="350dp"
+        android:backgroundTint="@color/green"
+        android:fontFamily="@font/poppinssemibold"
+        android:text="Log Out"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:id="@+id/btn4_profile"/>
+
+
+</RelativeLayout>

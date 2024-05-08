@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FstShow"
+    android:background="@color/green">
+
+    <ImageView
+        android:id="@+id/gambar1"
+        android:layout_width="204dp"
+        android:layout_height="190dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/gambar1" />
+
+    <ImageView
+        android:id="@+id/logofasdd"
+        android:layout_width="164dp"
+        android:layout_height="235dp"
+        android:layout_below="@id/gambar1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-70dp"
+        android:src="@drawable/logofasdd" />
+
+    <TextView
+        android:id="@+id/text1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/logofasdd"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/poppinssemibold"
+        android:text="@string/langkah_terbaik_untuk_tanaman_anda"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:gravity="center_horizontal"/>
+
+    <TextView
+        android:id="@+id/text2"
+        android:layout_width="360dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/poppinsregular"
+        android:text="@string/lorem_ipsum_is_simply_dummy_text_of_the_printing_and_typesetting_industry_lorem_ipsum_has_been_the_industry_s_standard_dummy_text_ever_since_the"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:gravity="center_horizontal"
+        android:padding="10dp"/>
+
+    <Button
+        android:id="@+id/btn1_fstshow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:width="350dp"
+        android:background="@drawable/button_shape"
+        android:fontFamily="@font/poppinssemibold"
+        android:text="@string/login"
+        android:textColor="@color/black"
+        android:textSize="16sp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn1_fstshow"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:width="350dp"
+        android:background="@drawable/button_shape"
+        android:fontFamily="@font/poppinssemibold"
+        android:text="@string/register"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:id="@+id/btn2_fstshow"/>
+
+
+</RelativeLayout>
