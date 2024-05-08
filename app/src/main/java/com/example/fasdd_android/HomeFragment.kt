@@ -1,51 +1,67 @@
 package com.example.fasdd_android
 
+import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
+import com.example.fasdd_android.databinding.FragmentHomeBinding
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 class HomeFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private lateinit var binding: FragmentHomeBinding
+    private val handler = Handler(Looper.getMainLooper())
+    private lateinit var runnable: Runnable
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment HomeFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            HomeFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
+        val weather = "Sunny"
+        binding.ivWeather.setImageResource(
+            when (weather) {
+                "Sunny" -> R.drawable.ic_card_weather_sunny
+                "Cloudy" -> R.drawable.ic_card_weather_cloudy
+                else -> R.drawable.ic_card_weather_sunny
             }
+        )
+        binding.cardWeather.setBackgroundResource(
+            when (weather) {
+                "Sunny" -> R.drawable.bg_card_weather_sunny
+                else -> R.drawable.bg_card_weather_sunny
+            }
+        )
+        runnable = object : Runnable {
+            override fun run() {
+                val current = LocalDateTime.now()
+                val formatter = DateTimeFormatter.ofPattern("EEEE, dd MMMM yyyy")
+                val formatted = current.format(formatter)
+                binding.date.text = formatted
+                val timeFormatter = DateTimeFormatter.ofPattern("hh:mm a")
+                val timeFormatted = current.format(timeFormatter)
+                binding.cardTime.text = timeFormatted
+                handler.postDelayed(this, 1000)
+            }
+        }
+        handler.post(runnable)
+        return binding.root
+    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        handler.removeCallbacks(runnable)
     }
 }
