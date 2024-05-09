@@ -37,10 +37,10 @@ class HomeFragment : Fragment() {
             val intent = Intent(context, NewsActivity::class.java)
             startActivity(intent)
         }
-//        binding.profilePicture.setOnClickListener{
-//            val intent = Intent(context, ProfileActivity::class.java)
-//            startActivity(intent)
-//        }
+        binding.profilePicture.setOnClickListener{
+            val intent = Intent(context, ProfileActivity::class.java)
+            startActivity(intent)
+        }
         val weatherTypes = arrayOf("sunny", "cloudy", "rainy")
         val weather = weatherTypes[Random.nextInt(weatherTypes.size)]
         binding.ivWeather.setImageResource(

@@ -24,13 +24,14 @@
         <activity
             android:name=".WeatherActivity"
             android:exported="false" />
-
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" />
         <activity
             android:name=".NewsActivity"
             android:exported="false" />
         <activity
             android:name=".FstShowActivity"
-
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
