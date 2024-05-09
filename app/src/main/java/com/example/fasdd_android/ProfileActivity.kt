@@ -18,13 +18,15 @@ class ProfileActivity : AppCompatActivity() {
 
     private fun btnBackProfileListener(){
         binding.backProfile.setOnClickListener {
-            startActivity(Intent(this, LoginActivity::class.java))
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
         }
     }
 
     private fun btnLogoutListener(){
         binding.btn4Profile.setOnClickListener {
             startActivity(Intent(this, FstShowActivity::class.java))
+            finish()
         }
     }
 }
