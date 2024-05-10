@@ -8,4 +8,44 @@
     <string name="don_t_have_an_account">Don\'t have an account?</string>
     <string name="forgot_password">Forgot Password?</string>
     <string name="password">Password</string>
+    <string name="news_title">News Title</string>
+    <string name="news_excerpt">lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</string>
+    <string name="news_date">Date</string>
+    
+    <string-array name="news_titles">
+        <item>News Title 1</item>
+        <item>News Title 2</item>
+        <item>News Title 3</item>
+        <item>News Title 4</item>
+        <item>News Title 5</item>
+    </string-array>
+    <string-array name="news_excerpt">
+        <item>lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</item>
+        <item>lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</item>
+        <item>lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</item>
+        <item>lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</item>
+        <item>lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</item>
+    </string-array>
+    <string-array name="news_datetimes">
+        <item>2024-05-10 13:00:00</item>
+        <item>2024-05-10 10:00:00</item>
+        <item>2024-05-05 10:00:00</item>
+        <item>2024-04-02 10:00:00</item>
+        <item>2023-05-01 10:00:00</item>
+    </string-array>
+    <string-array name="news_images">
+        <item>https://via.placeholder.com/50</item>
+        <item>https://via.placeholder.com/50</item>
+        <item>https://via.placeholder.com/50</item>
+        <item>https://via.placeholder.com/50</item>
+        <item>https://via.placeholder.com/50</item>
+    </string-array>
+    <string-array name="news_contents">
+        <item>lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</item>
+        <item>lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</item>
+        <item>lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</item>
+        <item>lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</item>
+        <item>lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</item>
+    </string-array>
+
 </resources>
