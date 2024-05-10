@@ -19,7 +19,7 @@
         android:layout_alignParentBottom="true"
         app:menu="@menu/bottom_navbar_menu"
         app:itemIconTint="@color/black"
-        app:itemIconSize="32dp"
+        app:itemIconSize="28dp"
         android:background="@color/white"
         app:labelVisibilityMode="selected"
         app:itemActiveIndicatorStyle="@style/App.Custom.Indicator"

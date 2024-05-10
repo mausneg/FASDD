@@ -14,14 +14,13 @@ import com.example.fasdd_android.databinding.FragmentHomeBinding
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import kotlin.random.Random
+import androidx.recyclerview.widget.LinearLayoutManager
+
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private val handler = Handler(Looper.getMainLooper())
     private lateinit var runnable: Runnable
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    private val newsList = ArrayList<News>()
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
@@ -29,20 +28,43 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
-        binding.cardWeather.setOnClickListener{
+
+        setupOnClickListeners()
+        setupWeatherCard()
+        setupDateTimeUpdater()
+
+        newsList.addAll(getNewsList())
+        showNewsList()
+
+        return binding.root
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        handler.removeCallbacks(runnable)
+    }
+
+    private fun setupOnClickListeners() {
+        binding.cardWeather.setOnClickListener {
             val intent = Intent(context, WeatherActivity::class.java)
             startActivity(intent)
         }
-        binding.moreNews.setOnClickListener{
+
+        binding.moreNews.setOnClickListener {
             val intent = Intent(context, NewsActivity::class.java)
             startActivity(intent)
         }
-        binding.profilePicture.setOnClickListener{
+
+        binding.profilePicture.setOnClickListener {
             val intent = Intent(context, ProfileActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    private fun setupWeatherCard() {
         val weatherTypes = arrayOf("sunny", "cloudy", "rainy")
         val weather = weatherTypes[Random.nextInt(weatherTypes.size)]
+
         binding.ivWeather.setImageResource(
             when (weather) {
                 "sunny" -> R.drawable.ic_card_weather_sunny
@@ -51,32 +73,62 @@ class HomeFragment : Fragment() {
                 else -> R.drawable.ic_card_weather_sunny
             }
         )
+
         binding.cardWeather.setBackgroundResource(
             when (weather) {
                 "Sunny" -> R.drawable.bg_card_weather_sunny
                 else -> R.drawable.bg_card_weather_sunny
             }
         )
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun setupDateTimeUpdater() {
         runnable = object : Runnable {
             override fun run() {
                 val current = LocalDateTime.now()
                 val formatter = DateTimeFormatter.ofPattern("EEEE, dd MMMM yyyy")
                 val formatted = current.format(formatter)
                 binding.date.text = formatted
+
                 val timeFormatter = DateTimeFormatter.ofPattern("hh:mm a")
                 val timeFormatted = current.format(timeFormatter)
                 binding.cardTime.text = timeFormatted
+
                 handler.postDelayed(this, 1000)
             }
         }
+
         handler.post(runnable)
-        return binding.root
     }
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun getNewsList(): ArrayList<News> {
+        val dataTitle = resources.getStringArray(R.array.news_titles)
+        val dataExcerpt = resources.getStringArray(R.array.news_excerpt)
+        val dataImage = resources.getStringArray(R.array.news_images)
+        val dataDateTime = resources.getStringArray(R.array.news_datetimes)
+        val dataContent = resources.getStringArray(R.array.news_contents)
+
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+        val listNews = ArrayList<News>()
+        for (position in dataTitle.indices) {
+            val news = News(
+                dataTitle[position],
+                dataContent[position],
+                dataImage[position],
+                LocalDateTime.parse(dataDateTime[position], formatter),
+                dataExcerpt[position],
+            )
+            listNews.add(news)
+        }
+        return listNews
     }
-    override fun onDestroy() {
-        super.onDestroy()
-        handler.removeCallbacks(runnable)
+
+    private fun showNewsList() {
+        val newsListAdapter = NewsListAdapter(newsList)
+        binding.contentNews.layoutManager = LinearLayoutManager(context)
+        binding.contentNews.adapter = newsListAdapter
+        binding.contentNews.isNestedScrollingEnabled = false
     }
 }
