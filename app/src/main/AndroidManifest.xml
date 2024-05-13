@@ -36,7 +36,6 @@
         <activity
             android:name=".FstShowActivity"
             android:theme="@style/Base.Theme.Fasdd_android"
-
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

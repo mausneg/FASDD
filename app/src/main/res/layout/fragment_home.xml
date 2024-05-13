@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    tools:context=".HomeActivity">
+    tools:context=".HomeFragment">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,20 +16,22 @@
             android:orientation="horizontal"
             android:gravity="center"
             android:paddingTop="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
             android:layout_height="wrap_content">
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/iv_profile"
+                android:id="@+id/profile_picture"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:layout_weight="1"
+                android:layout_weight="0"
                 android:src="@drawable/sample" />
 
             <LinearLayout
                 android:id="@+id/location_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/iv_profile"
+                android:layout_toRightOf="@id/profile_picture"
                 android:gravity="center"
                 android:layout_weight="1"
                 android:orientation="vertical">
@@ -49,7 +51,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins"
-                    android:text="Selasa, 7 Mei 2024"
+                    android:text=""
                     android:textSize="14dp" />
             </LinearLayout>
             <ImageButton
@@ -58,9 +60,97 @@
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
                 android:scaleType="fitCenter"
-                android:layout_weight="1"
+                android:layout_weight="0"
                 app:srcCompat="@drawable/ic_notif" />
         </LinearLayout>
-    </LinearLayout>
+        <FrameLayout
+            android:id="@+id/card_weather"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:padding="16dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+                >
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/card_temperature"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="30°C"
+                        android:textColor="@android:color/white"
+                        android:textSize="64dp"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/card_location"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Mataram"
+                        android:textColor="@android:color/white"
+                        android:textSize="36dp" />
+                    <TextView
+                        android:id="@+id/card_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textColor="@android:color/white"
+                        android:textSize="20dp" />
 
+                </LinearLayout>
+                <ImageView
+                    android:id="@+id/iv_weather"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+        </FrameLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="32dp">
+            <TextView
+                android:id="@+id/header_news"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins"
+                android:layout_weight="1"
+                android:text="Berita Terkini"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+            <ImageButton
+                android:id="@+id/more_news"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:layout_weight="0"
+                android:layout_gravity="end"
+                app:srcCompat="@drawable/ic_more" />
+        </LinearLayout>
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/content_news"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="16dp" />
+        </androidx.core.widget.NestedScrollView>
+>
+
+    </LinearLayout>
 </ScrollView>

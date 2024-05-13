@@ -30,10 +30,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/img1"
-        android:layout_marginTop="-190dp"
-        android:fontFamily="@font/poppinsbold"
-        android:gravity="center_horizontal"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="-190dp"
+        android:fontFamily="@font/poppins_bold"
+        android:gravity="center_horizontal"
         android:text="Register"
         android:textColor="@color/black"
         android:textSize="30sp" />
@@ -112,7 +112,7 @@
         android:layout_marginTop="10dp"
         android:width="300dp"
         android:backgroundTint="@color/green"
-        android:fontFamily="@font/poppinssemibold"
+        android:fontFamily="@font/poppins_semibold"
         android:text="@string/register"
         android:textColor="@color/white"
         android:textSize="16sp" />
@@ -128,7 +128,7 @@
             android:id="@+id/text3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/poppinsmedium"
+            android:fontFamily="@font/poppins_medium"
             android:text="Already have an account? "
             android:textColor="@color/black"
             android:textSize="15sp"/>
@@ -137,7 +137,7 @@
             android:id="@+id/text4_regis"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/poppinsmedium"
+            android:fontFamily="@font/poppins_medium"
             android:text="@string/login"
             android:textColor="@color/green"
             android:textSize="15sp"/>

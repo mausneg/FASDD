@@ -1,51 +1,134 @@
 package com.example.fasdd_android
 
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
+import com.example.fasdd_android.databinding.FragmentHomeBinding
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import kotlin.random.Random
+import androidx.recyclerview.widget.LinearLayoutManager
 
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 class HomeFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private lateinit var binding: FragmentHomeBinding
+    private val handler = Handler(Looper.getMainLooper())
+    private lateinit var runnable: Runnable
+    private val newsList = ArrayList<News>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
-
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
+
+        setupOnClickListeners()
+        setupWeatherCard()
+        setupDateTimeUpdater()
+
+        newsList.addAll(getNewsList())
+        showNewsList()
+
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment HomeFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            HomeFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    override fun onDestroy() {
+        super.onDestroy()
+        handler.removeCallbacks(runnable)
+    }
+
+    private fun setupOnClickListeners() {
+        binding.cardWeather.setOnClickListener {
+            val intent = Intent(context, WeatherActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.moreNews.setOnClickListener {
+            val intent = Intent(context, NewsActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.profilePicture.setOnClickListener {
+            val intent = Intent(context, ProfileActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
+    private fun setupWeatherCard() {
+        val weatherTypes = arrayOf("sunny", "cloudy", "rainy")
+        val weather = weatherTypes[Random.nextInt(weatherTypes.size)]
+
+        binding.ivWeather.setImageResource(
+            when (weather) {
+                "sunny" -> R.drawable.ic_card_weather_sunny
+                "cloudy" -> R.drawable.ic_card_weather_cloudy
+                "rainy" -> R.drawable.ic_card_weather_rainy
+                else -> R.drawable.ic_card_weather_sunny
             }
+        )
+
+        binding.cardWeather.setBackgroundResource(
+            when (weather) {
+                "Sunny" -> R.drawable.bg_card_weather_sunny
+                else -> R.drawable.bg_card_weather_sunny
+            }
+        )
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun setupDateTimeUpdater() {
+        runnable = object : Runnable {
+            override fun run() {
+                val current = LocalDateTime.now()
+                val formatter = DateTimeFormatter.ofPattern("EEEE, dd MMMM yyyy")
+                val formatted = current.format(formatter)
+                binding.date.text = formatted
+
+                val timeFormatter = DateTimeFormatter.ofPattern("hh:mm a")
+                val timeFormatted = current.format(timeFormatter)
+                binding.cardTime.text = timeFormatted
+
+                handler.postDelayed(this, 1000)
+            }
+        }
+
+        handler.post(runnable)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun getNewsList(): ArrayList<News> {
+        val dataTitle = resources.getStringArray(R.array.news_titles)
+        val dataExcerpt = resources.getStringArray(R.array.news_excerpt)
+        val dataImage = resources.getStringArray(R.array.news_images)
+        val dataDateTime = resources.getStringArray(R.array.news_datetimes)
+        val dataContent = resources.getStringArray(R.array.news_contents)
+
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+        val listNews = ArrayList<News>()
+        for (position in dataTitle.indices) {
+            val news = News(
+                dataTitle[position],
+                dataContent[position],
+                dataImage[position],
+                LocalDateTime.parse(dataDateTime[position], formatter),
+                dataExcerpt[position],
+            )
+            listNews.add(news)
+        }
+        return listNews
+    }
+
+    private fun showNewsList() {
+        val newsListAdapter = NewsListAdapter(newsList)
+        binding.contentNews.layoutManager = LinearLayoutManager(context)
+        binding.contentNews.adapter = newsListAdapter
+        binding.contentNews.isNestedScrollingEnabled = false
     }
 }

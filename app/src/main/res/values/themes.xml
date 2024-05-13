@@ -2,11 +2,11 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.Fasdd_android" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-         <item name="colorPrimary">@color/my_light_primary</item>
+         <item name="colorPrimary">@color/green</item>
     </style>
 
     <style name="Theme.Fasdd_android" parent="Base.Theme.Fasdd_android" />
     <style name="App.Custom.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
-        <item name="android:color">@color/my_light_primary</item>
+        <item name="android:color">@color/green</item>
     </style>
 </resources>
