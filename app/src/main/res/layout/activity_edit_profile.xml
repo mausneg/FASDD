@@ -30,10 +30,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/gambar1_epro"
-        android:layout_marginTop="-190dp"
-        android:fontFamily="@font/poppinsbold"
-        android:gravity="center_horizontal"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="-190dp"
+        android:fontFamily="@font/poppins_bold"
+        android:gravity="center_horizontal"
         android:text="Profile"
         android:textColor="@color/black"
         android:textSize="30sp" />
@@ -117,13 +117,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/layout1"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="0dp"
         android:width="350dp"
         android:backgroundTint="@color/green"
-        android:fontFamily="@font/poppinssemibold"
+        android:fontFamily="@font/poppins_semibold"
         android:text="Save"
         android:textColor="@color/white"
-        android:layout_centerHorizontal="true"
         android:textSize="16sp" />
 
 </RelativeLayout>
