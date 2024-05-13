@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.fasdd_android.databinding.ActivityLoginBinding
 
-class Login : AppCompatActivity() {
+class LoginActivity : AppCompatActivity() {
     lateinit var binding : ActivityLoginBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,19 +19,19 @@ class Login : AppCompatActivity() {
 
     private fun btnBackLoginListener(){
         binding.backLogin.setOnClickListener {
-            startActivity(Intent(this, FstShow::class.java))
+            startActivity(Intent(this, SplashScreenActivity::class.java))
         }
     }
 
     private fun txtRegisterListener(){
         binding.text4Login.setOnClickListener {
-            startActivity(Intent(this, Register::class.java))
+            startActivity(Intent(this, RegisterActivity::class.java))
         }
     }
 
     private fun btnLoginListener(){
         binding.btn1Login.setOnClickListener {
-            startActivity(Intent(this, Profile::class.java))
+            startActivity(Intent(this, ProfileActivity::class.java))
         }
     }
 

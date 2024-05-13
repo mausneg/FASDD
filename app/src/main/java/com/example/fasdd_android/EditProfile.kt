@@ -4,7 +4,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.fasdd_android.databinding.ActivityEditProfileBinding
-import com.example.fasdd_android.databinding.ActivityProfileBinding
 
 class EditProfile : AppCompatActivity() {
     lateinit var binding : ActivityEditProfileBinding
@@ -18,7 +17,7 @@ class EditProfile : AppCompatActivity() {
 
     private fun btnBackEproListener(){
         binding.backEpro.setOnClickListener {
-            startActivity(Intent(this, Profile::class.java))
+            startActivity(Intent(this, ProfileActivity::class.java))
         }
     }
 }

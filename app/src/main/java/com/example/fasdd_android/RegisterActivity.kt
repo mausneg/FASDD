@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.fasdd_android.databinding.ActivityRegisterBinding
 
-class Register : AppCompatActivity() {
+class RegisterActivity : AppCompatActivity() {
     lateinit var binding : ActivityRegisterBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,19 +19,19 @@ class Register : AppCompatActivity() {
 
     private fun btnBackRegisterListener(){
         binding.backRegister.setOnClickListener {
-            startActivity(Intent(this, FstShow::class.java))
+            startActivity(Intent(this, SplashScreenActivity::class.java))
         }
     }
 
     private fun txtLoginListener(){
         binding.text4Regis.setOnClickListener {
-            startActivity(Intent(this, Login::class.java))
+            startActivity(Intent(this, LoginActivity::class.java))
         }
     }
 
     private fun btnRegisterListener(){
         binding.btn1Regis.setOnClickListener {
-            startActivity(Intent(this, Login::class.java))
+            startActivity(Intent(this, LoginActivity::class.java))
         }
     }
 
