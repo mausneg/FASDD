@@ -19,7 +19,7 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun btnBackRegisterListener(){
         binding.backRegister.setOnClickListener {
-            startActivity(Intent(this, SplashScreenActivity::class.java))
+            startActivity(Intent(this, FstShowActivity::class.java))
         }
     }
 

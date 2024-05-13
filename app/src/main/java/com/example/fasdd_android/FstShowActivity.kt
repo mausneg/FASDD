@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.fasdd_android.databinding.ActivitySplashscreenBinding
 
-class SplashScreenActivity : AppCompatActivity() {
+class FstShowActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySplashscreenBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
