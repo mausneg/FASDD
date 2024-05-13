@@ -25,7 +25,7 @@ class ProfileActivity : AppCompatActivity() {
 
     private fun btnLogoutListener(){
         binding.btn4Profile.setOnClickListener {
-            startActivity(Intent(this, FstShowActivity::class.java))
+            startActivity(Intent(this, SplashScreenActivity::class.java))
             finish()
         }
     }

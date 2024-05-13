@@ -34,7 +34,7 @@
             android:name=".NewsActivity"
             android:exported="false" />
         <activity
-            android:name=".FstShowActivity"
+            android:name=".SplashScreenActivity"
             android:theme="@style/Base.Theme.Fasdd_android"
             android:exported="true">
             <intent-filter>

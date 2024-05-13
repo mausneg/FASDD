@@ -19,7 +19,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun btnBackLoginListener(){
         binding.backLogin.setOnClickListener {
-            startActivity(Intent(this, FstShowActivity::class.java))
+            startActivity(Intent(this, SplashScreenActivity::class.java))
         }
     }
 
