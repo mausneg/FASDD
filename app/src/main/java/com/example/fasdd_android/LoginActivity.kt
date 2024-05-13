@@ -31,8 +31,8 @@ class LoginActivity : AppCompatActivity() {
 
     private fun btnLoginListener(){
         binding.btn1Login.setOnClickListener {
-            startActivity(Intent(this, ProfileActivity::class.java))
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
         }
     }
-
 }

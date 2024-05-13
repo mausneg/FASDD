@@ -14,24 +14,19 @@ class ProfileActivity : AppCompatActivity() {
 
         btnBackProfileListener()
         btnLogoutListener()
-        btnEproListener()
     }
 
     private fun btnBackProfileListener(){
         binding.backProfile.setOnClickListener {
-            startActivity(Intent(this, LoginActivity::class.java))
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
         }
     }
 
     private fun btnLogoutListener(){
         binding.btn4Profile.setOnClickListener {
             startActivity(Intent(this, SplashScreenActivity::class.java))
-        }
-    }
-
-    private fun btnEproListener(){
-        binding.btn2Profile.setOnClickListener {
-            startActivity(Intent(this, EditProfile::class.java))
+            finish()
         }
     }
 }
