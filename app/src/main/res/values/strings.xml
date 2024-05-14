@@ -11,7 +11,7 @@
     <string name="news_title">News Title</string>
     <string name="news_excerpt">lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</string>
     <string name="news_date">Date</string>
-    
+
     <string-array name="news_titles">
         <item>News Title 1</item>
         <item>News Title 2</item>
