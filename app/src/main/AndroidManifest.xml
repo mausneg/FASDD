@@ -16,6 +16,9 @@
         android:theme="@style/Theme.Fasdd_android"
         tools:targetApi="31">
         <activity
+            android:name=".DetailNewsActivity"
+            android:exported="false" />
+        <activity
             android:name=".HistoryActivity"
             android:exported="false" />
         <activity

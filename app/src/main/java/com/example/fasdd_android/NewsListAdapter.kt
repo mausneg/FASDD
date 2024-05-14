@@ -1,5 +1,6 @@
 package com.example.fasdd_android
 
+import android.content.Intent
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
@@ -16,15 +17,26 @@ import java.time.LocalDateTime
 import java.time.Period
 
 class NewsListAdapter(private val newsList: ArrayList<News>): RecyclerView.Adapter<NewsListAdapter.ViewHolder>() {
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(itemView: View,private val newsList: ArrayList<News>) : RecyclerView.ViewHolder(itemView) {
         val title: TextView = itemView.findViewById(R.id.news_title)
         val image: ImageView = itemView.findViewById(R.id.news_image)
         val dateTime: TextView = itemView.findViewById(R.id.news_datetime)
         val excerpt: TextView = itemView.findViewById(R.id.news_excerpt)
+
+        init {
+            itemView.setOnClickListener {
+                val intent = Intent(it.context, DetailNewsActivity::class.java).apply {
+                    putExtra("News", newsList[adapterPosition])
+                }
+                it.context.startActivity(intent)
+            }
+        }
     }
+
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.card_home_news, parent, false)
-        return ViewHolder(view)
+        return ViewHolder(view, newsList)
     }
     @RequiresApi(Build.VERSION_CODES.O)
     fun getRelativeTime(time: LocalDateTime): String {
@@ -48,12 +60,9 @@ class NewsListAdapter(private val newsList: ArrayList<News>): RecyclerView.Adapt
         holder.dateTime.text = getRelativeTime(news.dateTime)
         holder.excerpt.text = news.excerpt
         Glide.with(holder.itemView.context)
-            .load(news.imageLink)
+            .load(news.image)
             .apply(RequestOptions().centerCrop())
             .into(holder.image)
-        holder.itemView.setOnClickListener {
-            Toast.makeText(holder.itemView.context, "You clicked on ${news.title}", Toast.LENGTH_SHORT).show()
-        }
     }
     override fun getItemCount(): Int {
         return newsList.size
