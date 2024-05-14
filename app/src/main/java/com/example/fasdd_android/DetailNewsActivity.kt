@@ -16,7 +16,7 @@ class DetailNewsActivity : AppCompatActivity() {
         val news = intent.getParcelableExtra<News>("News")
 
         val titleTextView = findViewById<TextView>(R.id.news_title)
-        val contentTextView = findViewById<TextView>(R.id.news_excerpt)
+        val contentTextView = findViewById<TextView>(R.id.news_content)
         val imageView = findViewById<ImageView>(R.id.news_image)
 
         titleTextView.text = news?.title
