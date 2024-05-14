@@ -13,18 +13,18 @@
     <string name="news_date">Date</string>
 
     <string-array name="news_titles">
-        <item>News Title 1</item>
-        <item>News Title 2</item>
-        <item>News Title 3</item>
-        <item>News Title 4</item>
-        <item>News Title 5</item>
+        <item>Perkembangan Teknologi Pertanian di Indonesia</item>
+        <item>Program Subsidi Pupuk bagi Petani</item>
+        <item>Peningkatan Hasil Panen Padi di Jawa Barat</item>
+        <item>Keberlanjutan Pertanian Organik di Bali</item>
+        <item>Dampak Perubahan Iklim terhadap Pertanian di Sumatera</item>
     </string-array>
     <string-array name="news_excerpt">
-        <item>lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</item>
-        <item>lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</item>
-        <item>lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</item>
-        <item>lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</item>
-        <item>lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</item>
+        <item>Teknologi pertanian di Indonesia terus berkembang dengan inovasi baru yang membantu petani meningkatkan efisiensi dan hasil panen.</item>
+        <item>Pemerintah meluncurkan program subsidi pupuk untuk membantu petani mengurangi biaya produksi dan meningkatkan kesejahteraan.</item>
+        <item>Petani di Jawa Barat berhasil meningkatkan hasil panen padi mereka berkat penerapan teknik pertanian modern.</item>
+        <item>Pertanian organik di Bali menunjukkan keberlanjutan yang tinggi dan menarik minat pasar internasional.</item>
+        <item>Perubahan iklim memberikan tantangan baru bagi petani di Sumatera, yang memerlukan adaptasi dan strategi baru.</item>
     </string-array>
     <string-array name="news_datetimes">
         <item>2024-05-10 13:00:00</item>
@@ -41,11 +41,12 @@
         <item>https://via.placeholder.com/50</item>
     </string-array>
     <string-array name="news_contents">
-        <item>lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</item>
-        <item>lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</item>
-        <item>lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</item>
-        <item>lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</item>
-        <item>lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</item>
+        <item>Teknologi pertanian di Indonesia terus berkembang dengan inovasi baru yang membantu petani meningkatkan efisiensi dan hasil panen. Berbagai alat dan mesin baru diperkenalkan untuk mempermudah proses pertanian, mulai dari penanaman hingga panen.</item>
+        <item>Pemerintah meluncurkan program subsidi pupuk untuk membantu petani mengurangi biaya produksi dan meningkatkan kesejahteraan. Subsidi ini diharapkan dapat meningkatkan produksi pertanian dan ketahanan pangan nasional.</item>
+        <item>Petani di Jawa Barat berhasil meningkatkan hasil panen padi mereka berkat penerapan teknik pertanian modern. Penggunaan varietas padi unggul dan penerapan sistem irigasi yang efisien menjadi kunci kesuksesan ini.</item>
+        <item>Pertanian organik di Bali menunjukkan keberlanjutan yang tinggi dan menarik minat pasar internasional. Produk organik dari Bali kini diekspor ke berbagai negara, memberikan nilai tambah bagi petani lokal.</item>
+        <item>Perubahan iklim memberikan tantangan baru bagi petani di Sumatera, yang memerlukan adaptasi dan strategi baru. Penelitian dan pelatihan untuk mengatasi dampak perubahan iklim terus dilakukan untuk membantu petani bertahan dan berkembang.</item>
     </string-array>
+
 
 </resources>
