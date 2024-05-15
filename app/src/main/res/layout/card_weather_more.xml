@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:padding="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/data_weather"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/weather_temp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="04°C"
+            android:textSize="64dp"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/weather_place"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bima"
+            android:textSize="32dp"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/weather_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="08:12 PM"
+            android:textSize="16dp"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/weather_type"
+        android:layout_toRightOf="@+id/data_weather"
+        android:src="@drawable/ic_card_weather_cloudy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</RelativeLayout>

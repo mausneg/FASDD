@@ -11,7 +11,30 @@
     <string name="news_title">News Title</string>
     <string name="news_excerpt">lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</string>
     <string name="news_date">Date</string>
-
+    <string-array name="weather_temp">
+        <item>04°C</item>
+        <item>12°C</item>
+        <item>08°C</item>
+        <item>04°C</item>
+    </string-array>
+    <string-array name="weather_place">
+        <item>Bima</item>
+        <item>Denpasar</item>
+        <item>Jakarta</item>
+        <item>Mataram</item>
+    </string-array>
+    <string-array name="weather_time">
+        <item>13:00:00</item>
+        <item>15:00:00</item>
+        <item>14:00:00</item>
+        <item>11:00:00</item>
+    </string-array>
+    <string-array name="weather_type">
+        <item>sunny</item>
+        <item>cloudy</item>
+        <item>rainy</item>
+        <item>sunny</item>
+    </string-array>
     <string-array name="news_titles">
         <item>Perkembangan Teknologi Pertanian di Indonesia</item>
         <item>Program Subsidi Pupuk bagi Petani</item>
