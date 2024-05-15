@@ -20,10 +20,10 @@
         android:theme="@style/Theme.Fasdd_android"
         tools:targetApi="31">
         <activity
-            android:name=".WeatherMoreActivity"
+            android:name=".DetailNewsActivity"
             android:exported="false" />
         <activity
-            android:name=".DetailNewsActivity"
+            android:name=".WeatherMoreActivity"
             android:exported="false" />
         <activity
             android:name=".HistoryActivity"
