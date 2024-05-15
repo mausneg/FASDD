@@ -30,6 +30,7 @@ class WeatherListAdapter(private val weatherList: ArrayList<Weather>): RecyclerV
         val type: ImageView = itemView.findViewById(R.id.weather_type)
     }
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.card_weather_more, parent, false)
         return ViewHolder(view, weatherList)
