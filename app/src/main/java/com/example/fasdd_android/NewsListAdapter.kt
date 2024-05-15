@@ -1,5 +1,6 @@
 package com.example.fasdd_android
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Build
 import android.view.LayoutInflater
@@ -62,6 +63,13 @@ class NewsListAdapter(private val newsList: ArrayList<News>): RecyclerView.Adapt
             .load(news.image)
             .apply(RequestOptions().centerCrop())
             .into(holder.image)
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun updateNewsList(newNewsList: List<News>) {
+        newsList.clear()
+        newsList.addAll(newNewsList)
+        notifyDataSetChanged()
     }
     override fun getItemCount(): Int {
         return newsList.size
