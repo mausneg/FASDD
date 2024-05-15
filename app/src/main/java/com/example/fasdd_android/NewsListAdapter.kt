@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -25,7 +24,7 @@ class NewsListAdapter(private val newsList: ArrayList<News>): RecyclerView.Adapt
 
         init {
             itemView.setOnClickListener {
-                val intent = Intent(it.context, DetailNewsActivity::class.java).apply {
+                val intent = Intent(it.context, NewsDetailActivity::class.java).apply {
                     putExtra("News", newsList[adapterPosition])
                 }
                 it.context.startActivity(intent)
