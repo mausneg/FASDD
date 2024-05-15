@@ -2,6 +2,8 @@ package com.example.fasdd_android
 
 import android.os.Build
 import android.os.Bundle
+import android.view.MenuItem
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,6 +14,7 @@ import java.time.format.DateTimeFormatter
 class NewsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityNewsBinding
     private val newsList = ArrayList<News>()
+    private lateinit var newsListAdapter: NewsListAdapter
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,8 +22,43 @@ class NewsActivity : AppCompatActivity() {
         binding = ActivityNewsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.toolbar.findViewById<TextView>(R.id.back_button).setOnClickListener {
+            finish()
+        }
+
         newsList.addAll(getNewsList())
         showNewsList()
+
+        binding.searchView.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (newText != null) {
+                    if (newText.isEmpty()) {
+                        newsListAdapter.updateNewsList(newsList)
+                    } else {
+                        filterNewsList(newText)
+                    }
+                }
+                return true
+            }
+        })
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                return true
+            }
+//            R.id.action_filter -> {
+//                // Handle filter action here
+//                return true
+//            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -47,8 +85,15 @@ class NewsActivity : AppCompatActivity() {
     }
 
     private fun showNewsList() {
-        val newsListAdapter = NewsListAdapter(newsList)
+        newsListAdapter = NewsListAdapter(newsList)
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
         binding.recyclerView.adapter = newsListAdapter
+    }
+
+    private fun filterNewsList(query: String) {
+        val filteredNewsList = newsList.filter { news ->
+            news.title.contains(query, ignoreCase = true)
+        }
+        newsListAdapter.updateNewsList(filteredNewsList)
     }
 }
