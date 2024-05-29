@@ -35,6 +35,21 @@
         <item>rainy</item>
         <item>sunny</item>
     </string-array>
+    <string-array name='notif_title'>
+        <item>Hasil Scan Anda sudah selesai</item>
+        <item>Hasil Scan Anda sudah selesai</item>
+        <item>Hasil Scan Anda sudah selesai</item>
+    </string-array>
+    <string-array name='notif_excerpt'>
+        <item>Tanaman Anda terkena penyakit A</item>
+        <item>Tanaman Anda terkena penyakit B</item>
+        <item>Tanaman Anda terkena penyakit C</item>
+    </string-array>
+    <string-array name="notif_datetimes">
+        <item>2024-05-10 13:00:00</item>
+        <item>2024-05-10 10:00:00</item>
+        <item>2024-05-05 10:00:00</item>
+    </string-array>
     <string-array name="news_titles">
         <item>Perkembangan Teknologi Pertanian di Indonesia</item>
         <item>Program Subsidi Pupuk bagi Petani</item>
