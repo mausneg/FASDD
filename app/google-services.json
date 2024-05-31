@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "838407075227",
+    "project_id": "fasdd-5f7e3",
+    "storage_bucket": "fasdd-5f7e3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:838407075227:android:9c573b2a2f597a611e9d3e",
+        "android_client_info": {
+          "package_name": "com.example.fasdd_android"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAnOHBZBewSuEyIBY3Upgsd31KCJuwEk7Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
