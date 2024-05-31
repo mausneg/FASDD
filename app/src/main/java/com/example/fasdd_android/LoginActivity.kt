@@ -1,17 +1,28 @@
 package com.example.fasdd_android
 
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Patterns
+import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import com.example.fasdd_android.databinding.ActivityLoginBinding
+import com.google.firebase.Firebase
+import com.google.firebase.firestore.firestore
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import java.security.MessageDigest
 
 class LoginActivity : AppCompatActivity() {
     lateinit var binding : ActivityLoginBinding
+    private lateinit var sharedPreferences: SharedPreferences
+    val db = Firebase.firestore
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        sharedPreferences = getSharedPreferences("user_id", MODE_PRIVATE)
         btnBackLoginListener()
         txtRegisterListener()
         btnLoginListener()
@@ -31,8 +42,53 @@ class LoginActivity : AppCompatActivity() {
 
     private fun btnLoginListener(){
         binding.btn1Login.setOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
+            val email = binding.inputEmail.text.toString()
+            val password = binding.inputPassword.text.toString()
+            if (checkInput(email, password)) {
+                lifecycleScope.launch {
+                    login(email, password)
+                }
+            }
+        }
+    }
+
+    private fun checkInput(email: String, password: String): Boolean {
+        if (email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            binding.inputEmail.error = "Please enter a valid email"
+            return false
+        }
+        if (password.isEmpty()) {
+            binding.inputPassword.error = "Password must not be empty"
+            binding.inputPassword.requestFocus()
+            return false
+        }
+        return true
+    }
+    private fun hashPassword(password: String): String {
+        val digest = MessageDigest.getInstance("SHA-256")
+        val hash = digest.digest(password.toByteArray(Charsets.UTF_8))
+        return hash.joinToString("") { "%02x".format(it) }
+    }
+    private suspend fun login(email: String, password: String) {
+        val users = db.collection("users")
+            .whereEqualTo("email", email)
+            .get()
+            .await()
+
+        if (users.documents.isNotEmpty()) {
+            val user = users.documents[0]
+            val userPassword = user.getString("password")
+            if (userPassword == hashPassword(password)) {
+                Toast.makeText(this, "Login Success", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                sharedPreferences.edit().putString("user_id", user.id).apply()
+                startActivity(intent)
+                finish()
+            } else {
+                Toast.makeText(this, "Password is incorrect", Toast.LENGTH_SHORT).show()
+            }
+        } else {
+            Toast.makeText(this, "Login Failed", Toast.LENGTH_SHORT).show()
         }
     }
 }

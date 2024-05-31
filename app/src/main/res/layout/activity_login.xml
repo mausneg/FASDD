@@ -62,7 +62,8 @@
             android:hint="Email"
             android:backgroundTint="@color/grey"
             android:paddingLeft="10dp"
-            android:id="@+id/input1_login"
+            android:id="@+id/input_email"
+            android:inputType="textEmailAddress"
             android:textColorHint="@color/black"
             />
 
@@ -72,9 +73,10 @@
             android:layout_marginTop="15dp"
             android:background="@drawable/input_shape"
             android:hint="@string/password"
+            android:inputType="textPassword"
             android:backgroundTint="@color/grey"
             android:paddingStart="10dp"
-            android:id="@+id/input2_login"
+            android:id="@+id/input_password"
             android:textColorHint="@color/black"
             />
     </LinearLayout>

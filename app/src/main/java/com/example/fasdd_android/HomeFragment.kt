@@ -1,26 +1,43 @@
 package com.example.fasdd_android
 
+import android.content.ContentValues.TAG
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.lifecycle.lifecycleScope
 import com.example.fasdd_android.databinding.FragmentHomeBinding
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import kotlin.random.Random
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageException
+import com.google.firebase.storage.ktx.storage
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import java.net.URL
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private val handler = Handler(Looper.getMainLooper())
     private lateinit var runnable: Runnable
     private val newsList = ArrayList<News>()
+    private lateinit var profilePict : URL
+    private lateinit var sharedPreferences: SharedPreferences
+    private var userId: String? = null
+    val storage = FirebaseStorage.getInstance()
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
@@ -29,13 +46,28 @@ class HomeFragment : Fragment() {
     ): View? {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
 
+        sharedPreferences = requireActivity().getSharedPreferences("user_id", Context.MODE_PRIVATE)
+        userId = sharedPreferences.getString("user_id", null)
+        lifecycleScope.launch {
+            try {
+                val profileRef = storage.reference.child("users/$userId.jpg")
+                val uri = profileRef.downloadUrl.await()
+                Glide.with(this@HomeFragment)
+                    .load(uri)
+                    .into(binding.profilePicture)
+            } catch (e: Exception) {
+                if (e is StorageException && e.errorCode == StorageException.ERROR_OBJECT_NOT_FOUND) {
+                    binding.profilePicture.setImageResource(R.drawable.profile)
+                } else {
+                    Log.e(TAG, "Error loading profile picture", e)
+                }
+            }
+        }
+        newsList.addAll(getNewsList())
+        showNewsList()
         setupOnClickListeners()
         setupWeatherCard()
         setupDateTimeUpdater()
-
-        newsList.addAll(getNewsList())
-        showNewsList()
-
         return binding.root
     }
 
