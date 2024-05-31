@@ -23,7 +23,7 @@
                 android:id="@+id/profile_picture"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:src="@drawable/sample" />
+                android:src="@drawable/profile" />
 
             <LinearLayout
                 android:id="@+id/location_date"
