@@ -43,36 +43,34 @@ class NotifFragment : Fragment() {
         lifecycleScope.launch {
             getNotifList()
         }
-        showNewsList()
         return binding.root
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private suspend fun getNotifList() {
-        try {
-            val userId = sharedPreferences.getString("user_id", null)
-            val userRef = db.collection("users").document(userId!!)
-            val documents = withContext(Dispatchers.IO) {
-                db.collection("notifications")
-                    .whereEqualTo("user_id", userRef)
-                    .get()
-                    .await()
+    private fun getNotifList() {
+        val userId = sharedPreferences.getString("user_id", null)
+        val userRef = db.collection("users").document(userId!!)
+        db.collection("notifications")
+            .whereEqualTo("user_id", userRef)
+            .addSnapshotListener { snapshots, e ->
+                if (e != null) {
+                    Log.w(TAG, "listen:error", e)
+                    return@addSnapshotListener
+                }
+
+                notifList.clear()
+                for (document in snapshots!!) {
+                    val id = document.id
+                    val type = document.getString("type") ?: ""
+                    val dateTimeStr = document.getDate("datetime") ?: ""
+                    val alreadyRead = document.getBoolean("already_read") ?: false
+                    val formatter = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH)
+                    val dateTime = LocalDateTime.parse(dateTimeStr.toString(), formatter)
+                    val notif = Notif(id, type, dateTime, alreadyRead)
+                    notifList.add(notif)
+                }
+                showNewsList()
             }
-            for (document in documents) {
-                val id = document.id
-                val title = document.getString("title") ?: ""
-                val message = document.getString("message") ?: ""
-                val dateTimeStr = document.getDate("datetime") ?: ""
-                val alreadyRead = document.getBoolean("already_read") ?: false
-                val formatter = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH)
-                val dateTime = LocalDateTime.parse(dateTimeStr.toString(), formatter)
-                val notif = Notif(id, title, dateTime, message, alreadyRead)
-                notifList.add(notif)
-            }
-            showNewsList()
-        } catch (e: Exception) {
-            Log.w(TAG, "Error getting documents: ", e)
-        }
     }
 
     private fun showNewsList() {

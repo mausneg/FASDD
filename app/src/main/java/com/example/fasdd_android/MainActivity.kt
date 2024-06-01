@@ -4,17 +4,13 @@ import android.content.ContentValues.TAG
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.example.fasdd_android.databinding.ActivityMainBinding
 import com.google.android.material.badge.BadgeDrawable
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -28,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         val badgeDrawable = binding.bottomNavigation.getOrCreateBadge(R.id.nav_notif)
         badgeDrawable.isVisible = true
         lifecycleScope.launch {
-            badgeDrawable.number = getUnreadNotifCount()
+            getUnreadNotifCount(badgeDrawable)
         }
         badgeDrawable.backgroundColor = getColor(R.color.green)
         badgeDrawable.badgeTextColor = getColor(R.color.white)
@@ -68,26 +64,25 @@ class MainActivity : AppCompatActivity() {
         fragmentTransaction.commit()
     }
 
-    private suspend fun getUnreadNotifCount(): Int {
-        var unreadCount = 0
-        try {
-            val userId = sharedPreferences.getString("user_id", null)
-            val userRef = db.collection("users").document(userId!!)
-            val documents = withContext(Dispatchers.IO) {
-                db.collection("notifications")
-                    .whereEqualTo("user_id", userRef)
-                    .get()
-                    .await()
-            }
-            for (document in documents) {
-                val alreadyRead = document.getBoolean("already_read") ?: false
-                if (!alreadyRead) {
-                    unreadCount++
+    private fun getUnreadNotifCount(badgeDrawable: BadgeDrawable) {
+        val userId = sharedPreferences.getString("user_id", null)
+        val userRef = db.collection("users").document(userId!!)
+        db.collection("notifications")
+            .whereEqualTo("user_id", userRef)
+            .addSnapshotListener { snapshots, e ->
+                if (e != null) {
+                    Log.w(TAG, "listen:error", e)
+                    return@addSnapshotListener
                 }
+
+                var unreadCount = 0
+                for (document in snapshots!!) {
+                    val alreadyRead = document.getBoolean("already_read") ?: false
+                    if (!alreadyRead) {
+                        unreadCount++
+                    }
+                }
+                badgeDrawable.number = unreadCount
             }
-        } catch (e: Exception) {
-            Log.w(TAG, "Error getting documents: ", e)
-        }
-        return unreadCount
     }
 }

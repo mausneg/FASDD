@@ -1,8 +1,11 @@
 package com.example.fasdd_android
 
 import android.annotation.SuppressLint
+import android.content.ContentValues.TAG
 import android.content.Intent
+import android.graphics.Color
 import android.os.Build
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +15,7 @@ import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.google.firebase.firestore.FirebaseFirestore
 import java.time.Duration
 import java.time.LocalDateTime
 import java.time.Period
@@ -21,9 +25,25 @@ class NotifListAdapter(private val notifList: ArrayList<Notif>): RecyclerView.Ad
         val title: TextView = itemView.findViewById(R.id.notif_title)
         val dateTime: TextView = itemView.findViewById(R.id.notif_datetime)
         val message: TextView = itemView.findViewById(R.id.notif_message)
+        var icon: ImageView = itemView.findViewById(R.id.notif_icon)
+        val space: TextView = itemView.findViewById(R.id.notif_space)
+
 
         init {
             itemView.setOnClickListener {
+                val notif = notifList[adapterPosition]
+                if (!notif.already_read) {
+                    notif.already_read = true
+                    val db = FirebaseFirestore.getInstance()
+                    db.collection("notifications").document(notif.id)
+                        .update("already_read", true)
+                        .addOnSuccessListener {
+                            Log.d(TAG, "DocumentSnapshot successfully updated!")
+                        }
+                        .addOnFailureListener { e ->
+                            Log.w(TAG, "Error updating document", e)
+                        }
+                }
             }
         }
     }
@@ -51,9 +71,28 @@ class NotifListAdapter(private val notifList: ArrayList<Notif>): RecyclerView.Ad
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val notif = notifList[position]
-        holder.title.text = notif.title
+        holder.icon.setImageResource(
+            when (notif.type) {
+                "scan" -> R.drawable.ic_scan
+                else -> R.drawable.ic_scan
+            }
+        )
+        holder.title.text = when (notif.type) {
+            "scan" -> "Scan Result"
+            else -> "Scan Result"
+        }
+        holder.message.text = when (notif.type) {
+            "scan" -> "Hasil scanmu sudah keluar! Yuk lihat bagaimana kondisi kesehatan tanamanmu."
+            else -> "Hasil scanmu sudah keluar! Yuk lihat bagaimana kondisi kesehatan tanamanmu."
+        }
         holder.dateTime.text = getRelativeTime(notif.dateTime)
-        holder.message.text = notif.message
+        holder.space.text = "•"
+
+        if (notif.already_read) {
+            holder.itemView.setBackgroundColor(Color.TRANSPARENT)
+        } else {
+            holder.itemView.setBackgroundColor(Color.LTGRAY)
+        }
     }
 
     @SuppressLint("NotifyDataSetChanged")
