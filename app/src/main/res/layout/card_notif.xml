@@ -2,13 +2,19 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:layout_marginTop="8dp"
+    android:padding="16dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/notif_icon"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:src="@drawable/ic_scan"/>
     <LinearLayout
         android:layout_centerVertical="true"
+        android:layout_toEndOf="@id/notif_icon"
+        android:layout_toRightOf="@id/notif_icon"
+        android:layout_marginLeft="10dp"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,25 +24,34 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/notif_title"
                 android:textSize="16sp"
-                android:textStyle="bold"
+                android:fontFamily="@font/poppins_bold"
                 tools:text="Notif Title"
-                android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
-
             <TextView
-                android:id="@+id/notif_datetime"
+                android:id="@+id/notif_space"
                 android:textSize="14sp"
-                tools:text="@string/news_date"
-                android:paddingLeft="16dp"
+                tools:text="•"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:ignore="RtlSymmetry" />
+
+            <TextView
+                android:id="@+id/notif_datetime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins"
+                android:textSize="12sp"
+                tools:ignore="RtlSymmetry"
+                tools:text="@string/news_date" />
 
         </LinearLayout>
         <TextView
@@ -44,6 +59,7 @@
             tools:text="@string/news_excerpt"
             android:maxLines="2"
             android:textSize="14sp"
+            android:fontFamily="@font/poppins"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <ImageView

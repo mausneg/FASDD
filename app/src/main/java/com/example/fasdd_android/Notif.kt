@@ -7,8 +7,7 @@ import java.time.LocalDateTime
 @Parcelize
 data class Notif(
     val id: String,
-    val title: String,
+    val type: String,
     val dateTime: LocalDateTime,
-    val message: String,
-    val alread_read: Boolean,
+    var already_read: Boolean,
     ): Parcelable
