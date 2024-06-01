@@ -20,11 +20,11 @@ class EditProfile : AppCompatActivity() {
         val email = sharedPreferences.getString("email", null)
         binding.inputFullname.setText(fullName)
         binding.inputEmail.setText(email)
-        try {
+        if(imageUri != null) {
             Glide.with(this)
                 .load(imageUri)
                 .into(binding.profilePicture)
-        } catch (e: Exception) {
+        } else {
             binding.profilePicture.setImageResource(R.drawable.profile)
         }
         btnBackEproListener()

@@ -4,9 +4,12 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.fasdd_android.databinding.ActivityProfileBinding
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class ProfileActivity : AppCompatActivity() {
     lateinit var binding : ActivityProfileBinding
@@ -21,11 +24,11 @@ class ProfileActivity : AppCompatActivity() {
         val email = sharedPreferences.getString("email", null)
         binding.profileFullname.text = fullName
         binding.profileEmail.text = email
-        try {
+        if(imageUri != null) {
             Glide.with(this)
                 .load(imageUri)
                 .into(binding.profilePicture)
-        } catch (e: Exception) {
+        } else {
             binding.profilePicture.setImageResource(R.drawable.profile)
         }
         btnBackProfileListener()
@@ -44,10 +47,7 @@ class ProfileActivity : AppCompatActivity() {
         binding.btn4Profile.setOnClickListener {
             val sharedPreferences = getSharedPreferences("user_id", MODE_PRIVATE)
             val editor = sharedPreferences.edit()
-            editor.remove("user_id")
-            editor.remove("full_name")
-            editor.remove("email")
-            editor.remove("password")
+            editor.clear()
             editor.apply()
             startActivity(Intent(this, SplashScreenActivity::class.java))
             finish()

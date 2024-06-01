@@ -1,6 +1,7 @@
 package com.example.fasdd_android
 
 import android.content.ContentValues.TAG
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import androidx.annotation.RequiresApi
@@ -18,10 +19,12 @@ import kotlinx.coroutines.withContext
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     val db = FirebaseFirestore.getInstance()
+    private lateinit var sharedPreferences: SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        sharedPreferences = getSharedPreferences("user_id", MODE_PRIVATE)
         val badgeDrawable = binding.bottomNavigation.getOrCreateBadge(R.id.nav_notif)
         badgeDrawable.isVisible = true
         lifecycleScope.launch {
@@ -68,8 +71,13 @@ class MainActivity : AppCompatActivity() {
     private suspend fun getUnreadNotifCount(): Int {
         var unreadCount = 0
         try {
+            val userId = sharedPreferences.getString("user_id", null)
+            val userRef = db.collection("users").document(userId!!)
             val documents = withContext(Dispatchers.IO) {
-                db.collection("notifications").get().await()
+                db.collection("notifications")
+                    .whereEqualTo("user_id", userRef)
+                    .get()
+                    .await()
             }
             for (document in documents) {
                 val alreadyRead = document.getBoolean("already_read") ?: false

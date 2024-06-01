@@ -47,11 +47,12 @@ class HomeFragment : Fragment() {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         sharedPreferences = requireActivity().getSharedPreferences("user_id", Context.MODE_PRIVATE)
         val imageUri = sharedPreferences.getString("profile_url", null)
-        try {
+        Log.d(TAG, "onCreateView: $imageUri")
+        if(imageUri != null) {
             Glide.with(this)
                 .load(imageUri)
                 .into(binding.profilePicture)
-        } catch (e: Exception) {
+        } else {
             binding.profilePicture.setImageResource(R.drawable.profile)
         }
 

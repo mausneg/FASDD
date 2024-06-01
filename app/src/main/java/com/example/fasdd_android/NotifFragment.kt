@@ -1,6 +1,8 @@
 package com.example.fasdd_android
 
 import android.content.ContentValues.TAG
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -27,7 +29,7 @@ class NotifFragment : Fragment() {
     private lateinit var binding: FragmentNotifBinding
     private val notifList = ArrayList<Notif>()
     private lateinit var db: FirebaseFirestore
-
+    private lateinit var sharedPreferences: SharedPreferences
 
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -37,6 +39,7 @@ class NotifFragment : Fragment() {
     ): View? {
         binding = FragmentNotifBinding.inflate(inflater, container, false)
         db = FirebaseFirestore.getInstance()
+        sharedPreferences = requireActivity().getSharedPreferences("user_id", Context.MODE_PRIVATE)
         lifecycleScope.launch {
             getNotifList()
         }
@@ -47,8 +50,13 @@ class NotifFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     private suspend fun getNotifList() {
         try {
+            val userId = sharedPreferences.getString("user_id", null)
+            val userRef = db.collection("users").document(userId!!)
             val documents = withContext(Dispatchers.IO) {
-                db.collection("notifications").get().await()
+                db.collection("notifications")
+                    .whereEqualTo("user_id", userRef)
+                    .get()
+                    .await()
             }
             for (document in documents) {
                 val id = document.id
