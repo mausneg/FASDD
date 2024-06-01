@@ -101,15 +101,13 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun getProfileImage(user_id: String) {
-        lifecycleScope.launch {
-            try {
-                val profileRef = storage.reference.child("users/$user_id.jpg")
-                val uri = profileRef.downloadUrl.await()
-                sharedPreferences.edit().putString("profile_url", uri.toString()).apply()
-            } catch (e: Exception) {
-                sharedPreferences.edit().putString("profile_url", null).apply()
-            }
+    private suspend fun getProfileImage(user_id: String) {
+        try {
+            val profileRef = storage.reference.child("users/$user_id.jpg")
+            val uri = profileRef.downloadUrl.await()
+            sharedPreferences.edit().putString("profile_url", uri.toString()).apply()
+        } catch (e: Exception) {
+            sharedPreferences.edit().putString("profile_url", null).apply()
         }
     }
 }
