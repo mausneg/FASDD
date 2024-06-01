@@ -1,21 +1,32 @@
 package com.example.fasdd_android
 
+import android.content.ContentValues.TAG
 import android.os.Bundle
+import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.example.fasdd_android.databinding.ActivityMainBinding
 import com.google.android.material.badge.BadgeDrawable
+import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-
+    val db = FirebaseFirestore.getInstance()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val badgeDrawable = binding.bottomNavigation.getOrCreateBadge(R.id.nav_notif)
         badgeDrawable.isVisible = true
-        badgeDrawable.number = 3
+        lifecycleScope.launch {
+            badgeDrawable.number = getUnreadNotifCount()
+        }
         badgeDrawable.backgroundColor = getColor(R.color.green)
         badgeDrawable.badgeTextColor = getColor(R.color.white)
 
@@ -52,5 +63,23 @@ class MainActivity : AppCompatActivity() {
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.container, fragment)
         fragmentTransaction.commit()
+    }
+
+    private suspend fun getUnreadNotifCount(): Int {
+        var unreadCount = 0
+        try {
+            val documents = withContext(Dispatchers.IO) {
+                db.collection("notifications").get().await()
+            }
+            for (document in documents) {
+                val alreadyRead = document.getBoolean("already_read") ?: false
+                if (!alreadyRead) {
+                    unreadCount++
+                }
+            }
+        } catch (e: Exception) {
+            Log.w(TAG, "Error getting documents: ", e)
+        }
+        return unreadCount
     }
 }
