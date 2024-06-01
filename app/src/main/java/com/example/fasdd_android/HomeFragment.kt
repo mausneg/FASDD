@@ -45,24 +45,16 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
-
         sharedPreferences = requireActivity().getSharedPreferences("user_id", Context.MODE_PRIVATE)
-        userId = sharedPreferences.getString("user_id", null)
-        lifecycleScope.launch {
-            try {
-                val profileRef = storage.reference.child("users/$userId.jpg")
-                val uri = profileRef.downloadUrl.await()
-                Glide.with(this@HomeFragment)
-                    .load(uri)
-                    .into(binding.profilePicture)
-            } catch (e: Exception) {
-                if (e is StorageException && e.errorCode == StorageException.ERROR_OBJECT_NOT_FOUND) {
-                    binding.profilePicture.setImageResource(R.drawable.profile)
-                } else {
-                    Log.e(TAG, "Error loading profile picture", e)
-                }
-            }
+        val imageUri = sharedPreferences.getString("profile_url", null)
+        try {
+            Glide.with(this)
+                .load(imageUri)
+                .into(binding.profilePicture)
+        } catch (e: Exception) {
+            binding.profilePicture.setImageResource(R.drawable.profile)
         }
+
         newsList.addAll(getNewsList())
         showNewsList()
         setupOnClickListeners()

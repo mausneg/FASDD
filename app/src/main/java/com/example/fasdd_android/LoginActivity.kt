@@ -1,15 +1,19 @@
 package com.example.fasdd_android
 
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import com.example.fasdd_android.databinding.ActivityLoginBinding
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
+import com.google.firebase.storage.StorageException
+import com.google.firebase.storage.storage
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import java.security.MessageDigest
@@ -18,6 +22,7 @@ class LoginActivity : AppCompatActivity() {
     lateinit var binding : ActivityLoginBinding
     private lateinit var sharedPreferences: SharedPreferences
     val db = Firebase.firestore
+    val storage = Firebase.storage
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
@@ -82,6 +87,10 @@ class LoginActivity : AppCompatActivity() {
                 Toast.makeText(this, "Login Success", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this@LoginActivity, MainActivity::class.java)
                 sharedPreferences.edit().putString("user_id", user.id).apply()
+                sharedPreferences.edit().putString("full_name", user.getString("fullName")).apply()
+                sharedPreferences.edit().putString("email", user.getString("email")).apply()
+                sharedPreferences.edit().putString("password", user.getString("password")).apply()
+                getProfileImage(user.id)
                 startActivity(intent)
                 finish()
             } else {
@@ -89,6 +98,18 @@ class LoginActivity : AppCompatActivity() {
             }
         } else {
             Toast.makeText(this, "Login Failed", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun getProfileImage(user_id: String) {
+        lifecycleScope.launch {
+            try {
+                val profileRef = storage.reference.child("users/$user_id.jpg")
+                val uri = profileRef.downloadUrl.await()
+                sharedPreferences.edit().putString("profile_url", uri.toString()).apply()
+            } catch (e: Exception) {
+                sharedPreferences.edit().putString("profile_url", null).apply()
+            }
         }
     }
 }

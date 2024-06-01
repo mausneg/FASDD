@@ -20,7 +20,7 @@ class NotifListAdapter(private val notifList: ArrayList<Notif>): RecyclerView.Ad
     class ViewHolder(itemView: View,private val notifList: ArrayList<Notif>) : RecyclerView.ViewHolder(itemView) {
         val title: TextView = itemView.findViewById(R.id.notif_title)
         val dateTime: TextView = itemView.findViewById(R.id.notif_datetime)
-        val excerpt: TextView = itemView.findViewById(R.id.notif_excerpt)
+        val message: TextView = itemView.findViewById(R.id.notif_message)
 
         init {
             itemView.setOnClickListener {
@@ -53,7 +53,7 @@ class NotifListAdapter(private val notifList: ArrayList<Notif>): RecyclerView.Ad
         val notif = notifList[position]
         holder.title.text = notif.title
         holder.dateTime.text = getRelativeTime(notif.dateTime)
-        holder.excerpt.text = notif.excerpt
+        holder.message.text = notif.message
     }
 
     @SuppressLint("NotifyDataSetChanged")
