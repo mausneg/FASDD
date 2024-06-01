@@ -38,21 +38,20 @@
         android:textColor="@color/black"
         android:textSize="30sp" />
 
-    <ImageView
-        android:id="@+id/gambar2_epro"
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profile_picture"
         android:layout_width="205dp"
-        android:layout_height="269dp"
+        android:layout_height="205dp"
         android:layout_below="@id/gambar1_epro"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="-149dp"
+        android:layout_marginTop="-120dp"
         android:src="@drawable/profile" />
 
     <LinearLayout
         android:id="@+id/layout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/gambar2_epro"
-        android:layout_marginTop="-42dp"
+        android:layout_below="@id/profile_picture"
         android:orientation="vertical"
         android:padding="20dp">
 
@@ -66,7 +65,7 @@
             android:textColorHint="@color/black" />
 
         <EditText
-            android:id="@+id/input1_epro"
+            android:id="@+id/input_fullname"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/input_shape"
@@ -84,11 +83,12 @@
             android:textColorHint="@color/black" />
 
         <EditText
-            android:id="@+id/input2_pro"
+            android:id="@+id/input_email"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/input_shape"
             android:backgroundTint="@color/grey"
+            android:inputType="textEmailAddress"
             android:hint="victor.robert9@unram.ac.id"
             android:paddingLeft="10dp"
             android:textColorHint="@color/black" />
@@ -98,18 +98,39 @@
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:layout_margin="10dp"
-            android:hint="Password"
+            android:hint="Old Password"
             android:textColorHint="@color/black" />
 
         <EditText
-            android:id="@+id/input3_epro"
+            android:id="@+id/input_old_password"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/input_shape"
             android:backgroundTint="@color/grey"
-            android:hint="victor123"
+            android:hint=""
+            android:inputType="textPassword"
             android:paddingStart="10dp"
             android:textColorHint="@color/black" />
+
+        <TextView
+            android:id="@+id/text5_epro"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_margin="10dp"
+            android:hint="New Password"
+            android:textColorHint="@color/black" />
+
+        <EditText
+            android:id="@+id/input_new_password"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/input_shape"
+            android:backgroundTint="@color/grey"
+            android:hint=""
+            android:inputType="textPassword"
+            android:paddingStart="10dp"
+            android:textColorHint="@color/black" />
+
     </LinearLayout>
 
     <Button

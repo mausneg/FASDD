@@ -24,7 +24,7 @@
                 android:id="@+id/notif_title"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                tools:text="@string/news_title"
+                tools:text="Notif Title"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content" />
@@ -40,7 +40,7 @@
 
         </LinearLayout>
         <TextView
-            android:id="@+id/notif_excerpt"
+            android:id="@+id/notif_message"
             tools:text="@string/news_excerpt"
             android:maxLines="2"
             android:textSize="14sp"
