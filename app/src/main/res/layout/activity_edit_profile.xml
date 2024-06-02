@@ -45,7 +45,10 @@
         android:layout_below="@id/gambar1_epro"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="-120dp"
-        android:src="@drawable/profile" />
+        android:src="@drawable/profile"
+        android:clickable="true"
+        android:focusable="true" />
+
 
     <LinearLayout
         android:id="@+id/layout1"
