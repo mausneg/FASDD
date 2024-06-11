@@ -84,6 +84,7 @@
                 android:textSize="18dp"
                 />
             <TextView
+                android:id="@+id/temp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="30°C"
@@ -142,6 +143,7 @@
                     </LinearLayout>
 
                     <TextView
+                        android:id="@+id/uvIndex"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
@@ -183,6 +185,7 @@
                             />
                     </LinearLayout>
                     <TextView
+                        android:id="@+id/windSpeed"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
@@ -223,6 +226,7 @@
                             />
                     </LinearLayout>
                     <TextView
+                        android:id="@+id/humidity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
@@ -251,6 +255,7 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
                 <TextView
+                    android:id="@+id/hour1Time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
@@ -260,6 +265,7 @@
                     android:gravity="center"
                     />
                 <TextView
+                    android:id="@+id/hour1Temp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
@@ -281,6 +287,7 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
                 <TextView
+                    android:id="@+id/hour2Time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
@@ -290,6 +297,7 @@
                     android:gravity="center"
                     />
                 <TextView
+                    android:id="@+id/hour2Temp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
@@ -311,6 +319,7 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
                 <TextView
+                    android:id="@+id/hour3Time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
@@ -320,6 +329,7 @@
                     android:gravity="center"
                     />
                 <TextView
+                    android:id="@+id/hour3Temp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
@@ -341,6 +351,7 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
                 <TextView
+                    android:id="@+id/hour4Time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
@@ -350,6 +361,7 @@
                     android:gravity="center"
                     />
                 <TextView
+                    android:id="@+id/hour4Temp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
@@ -371,6 +383,7 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
                 <TextView
+                    android:id="@+id/hour5Time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
@@ -380,6 +393,7 @@
                     android:gravity="center"
                     />
                 <TextView
+                    android:id="@+id/hour5Temp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
