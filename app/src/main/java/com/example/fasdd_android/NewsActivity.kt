@@ -2,12 +2,19 @@ package com.example.fasdd_android
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fasdd_android.databinding.ActivityNewsBinding
+import com.example.fasdd_android.newsdata.response.ArticlesItem
+import com.example.fasdd_android.newsdata.response.ResponseNews
+import com.example.fasdd_android.newsdata.retrofit.ApiConfig
+import com.google.android.material.tabs.TabLayout.TabGravity
+import retrofit2.Call
+import retrofit2.Response
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -26,8 +33,9 @@ class NewsActivity : AppCompatActivity() {
             finish()
         }
 
-        newsList.addAll(getNewsList())
-        showNewsList()
+        binding.recyclerView.layoutManager = LinearLayoutManager(this)
+
+        getNewsListNew()
 
         binding.searchView.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -61,33 +69,27 @@ class NewsActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun getNewsList(): ArrayList<News> {
-        val dataTitle = resources.getStringArray(R.array.news_titles)
-        val dataExcerpt = resources.getStringArray(R.array.news_excerpt)
-        val dataImage = resources.getStringArray(R.array.news_images)
-        val dataDateTime = resources.getStringArray(R.array.news_datetimes)
-        val dataContent = resources.getStringArray(R.array.news_contents)
+    private fun getNewsListNew(){
+        val q = "farm"
+        val apikey = "65d438ffae89424393321f74b0be3786"
+        val client = ApiConfig.getApiService().getEverything(q,apikey)
+        client.enqueue(object:retrofit2.Callback<ResponseNews>{
+            override fun onResponse(p0: Call<ResponseNews>, p1: Response<ResponseNews>) {
+                if(p1.isSuccessful){
+                    val result  = p1.body()!!.articles
+                    val sort = result.sortedByDescending { it.publishedAt }
+                    val adapter = NewsListAdapterr()
+                    adapter.submitList(sort)
+                    binding.recyclerView.adapter = adapter
+                }else{
+                    Log.e("ERROR","OnFailure: ${p1.message()}")
 
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-        val listNews = ArrayList<News>()
-        for (position in dataTitle.indices) {
-            val news = News(
-                dataTitle[position],
-                dataContent[position],
-                dataImage[position],
-                LocalDateTime.parse(dataDateTime[position], formatter),
-                dataExcerpt[position],
-            )
-            listNews.add(news)
-        }
-        return listNews
-    }
-
-    private fun showNewsList() {
-        newsListAdapter = NewsListAdapter(newsList)
-        binding.recyclerView.layoutManager = LinearLayoutManager(this)
-        binding.recyclerView.adapter = newsListAdapter
+                }
+            }
+            override fun onFailure(pcall: Call<ResponseNews>, p1: Throwable) {
+                Log.e("ERROR","OnFailure: ${p1.message.toString()}")
+            }
+        })
     }
 
     private fun filterNewsList(query: String) {

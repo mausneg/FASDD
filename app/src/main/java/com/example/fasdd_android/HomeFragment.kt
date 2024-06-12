@@ -21,12 +21,16 @@ import java.time.format.DateTimeFormatter
 import kotlin.random.Random
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.example.fasdd_android.newsdata.response.ResponseNews
+import com.example.fasdd_android.newsdata.retrofit.ApiConfig
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageException
 import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import retrofit2.Call
+import retrofit2.Response
 import java.net.URL
 
 class HomeFragment : Fragment() {
@@ -48,6 +52,8 @@ class HomeFragment : Fragment() {
         sharedPreferences = requireActivity().getSharedPreferences("user_id", Context.MODE_PRIVATE)
         val imageUri = sharedPreferences.getString("profile_url", null)
         Log.d(TAG, "onCreateView: $imageUri")
+
+
         if(imageUri != null) {
             Glide.with(this)
                 .load(imageUri)
@@ -55,9 +61,7 @@ class HomeFragment : Fragment() {
         } else {
             binding.profilePicture.setImageResource(R.drawable.profile)
         }
-
-        newsList.addAll(getNewsList())
-        showNewsList()
+        getNewsListNew()
         setupOnClickListeners()
         setupWeatherCard()
         setupDateTimeUpdater()
@@ -127,33 +131,28 @@ class HomeFragment : Fragment() {
         handler.post(runnable)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun getNewsList(): ArrayList<News> {
-        val dataTitle = resources.getStringArray(R.array.news_titles)
-        val dataExcerpt = resources.getStringArray(R.array.news_excerpt)
-        val dataImage = resources.getStringArray(R.array.news_images)
-        val dataDateTime = resources.getStringArray(R.array.news_datetimes)
-        val dataContent = resources.getStringArray(R.array.news_contents)
+    private fun getNewsListNew() {
+        val q = "farm"
+        val apikey = "65d438ffae89424393321f74b0be3786"
+        val client = ApiConfig.getApiService().getEverything(q,apikey)
+        client.enqueue(object:retrofit2.Callback<ResponseNews>{
+            override fun onResponse(p0: Call<ResponseNews>, p1: Response<ResponseNews>) {
+                if(p1.isSuccessful){
+                    val result  = p1.body()!!.articles
+                    val sort = result.sortedByDescending { it.publishedAt }
+                    val adapter = NewsListAdapterr()
+                    adapter.submitList(sort)
+                    binding.contentNews.layoutManager = LinearLayoutManager(context)
+                    binding.contentNews.adapter = adapter
+                    binding.contentNews.isNestedScrollingEnabled = false
 
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-        val listNews = ArrayList<News>()
-        for (position in dataTitle.indices) {
-            val news = News(
-                dataTitle[position],
-                dataContent[position],
-                dataImage[position],
-                LocalDateTime.parse(dataDateTime[position], formatter),
-                dataExcerpt[position],
-            )
-            listNews.add(news)
-        }
-        return listNews
-    }
-
-    private fun showNewsList() {
-        val newsListAdapter = NewsListAdapter(newsList)
-        binding.contentNews.layoutManager = LinearLayoutManager(context)
-        binding.contentNews.adapter = newsListAdapter
-        binding.contentNews.isNestedScrollingEnabled = false
+                }else{
+                    Log.e("ERROR","OnFailure: ${p1.message()}")
+                }
+            }
+            override fun onFailure(pcall: Call<ResponseNews>, p1: Throwable) {
+                Log.e("ERROR","OnFailure: ${p1.message.toString()}")
+            }
+        })
     }
 }
