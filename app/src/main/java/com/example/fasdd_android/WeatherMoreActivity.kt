@@ -31,7 +31,6 @@ class WeatherMoreActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
-
     }
     @RequiresApi(Build.VERSION_CODES.O)
     private fun getWeatherList(): ArrayList<Weather> {
