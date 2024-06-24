@@ -37,7 +37,7 @@
             <TextView
                 android:layout_marginLeft="64dp"
                 android:layout_marginRight="64dp"
-                android:id="@+id/location"
+                android:id="@+id/negara"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -46,7 +46,7 @@
                 android:fontFamily="@font/poppins"
                 android:gravity="center"
                 android:layout_gravity="center"
-                android:text="Indonesia"
+                android:text="No Data"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -68,9 +68,10 @@
             android:gravity="center"
             >
             <TextView
+                android:id="@+id/kota"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Mataram"
+                android:text="No Data"
                 android:textColor="@color/white"
                 android:textSize="48dp"
                 android:textStyle="bold"
@@ -83,6 +84,7 @@
                 android:textSize="18dp"
                 />
             <TextView
+                android:id="@+id/temp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="30°C"
@@ -141,6 +143,7 @@
                     </LinearLayout>
 
                     <TextView
+                        android:id="@+id/uvIndex"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
@@ -182,6 +185,7 @@
                             />
                     </LinearLayout>
                     <TextView
+                        android:id="@+id/windSpeed"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
@@ -222,6 +226,7 @@
                             />
                     </LinearLayout>
                     <TextView
+                        android:id="@+id/humidity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
@@ -250,6 +255,7 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
                 <TextView
+                    android:id="@+id/hour1Time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
@@ -259,6 +265,7 @@
                     android:gravity="center"
                     />
                 <TextView
+                    android:id="@+id/hour1Temp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
@@ -280,6 +287,7 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
                 <TextView
+                    android:id="@+id/hour2Time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
@@ -289,6 +297,7 @@
                     android:gravity="center"
                     />
                 <TextView
+                    android:id="@+id/hour2Temp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
@@ -310,6 +319,7 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
                 <TextView
+                    android:id="@+id/hour3Time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
@@ -319,6 +329,7 @@
                     android:gravity="center"
                     />
                 <TextView
+                    android:id="@+id/hour3Temp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
@@ -340,6 +351,7 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
                 <TextView
+                    android:id="@+id/hour4Time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
@@ -349,6 +361,7 @@
                     android:gravity="center"
                     />
                 <TextView
+                    android:id="@+id/hour4Temp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
@@ -370,6 +383,7 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
                 <TextView
+                    android:id="@+id/hour5Time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
@@ -379,6 +393,7 @@
                     android:gravity="center"
                     />
                 <TextView
+                    android:id="@+id/hour5Temp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"

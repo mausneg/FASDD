@@ -11,6 +11,7 @@
     <string name="news_title">News Title</string>
     <string name="news_excerpt">lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</string>
     <string name="news_date">Date</string>
+    <string name="news_source" />
     <string-array name="weather_temp">
         <item>04°C</item>
         <item>12°C</item>

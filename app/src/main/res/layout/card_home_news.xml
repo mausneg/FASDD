@@ -1,27 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal"
-    android:padding="16dp"
+    android:id="@+id/pencetini"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="16dp">
 
     <ImageView
         android:id="@+id/news_image"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:src="@drawable/placeholder"
         android:scaleType="centerCrop"
+        android:src="@drawable/placeholder"
         tools:ignore="ContentDescription" />
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        android:layout_marginLeft="16dp"
         android:layout_toEndOf="@+id/news_image"
         android:layout_toRightOf="@+id/news_image"
         android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_marginLeft="16dp"
-        android:layout_height="wrap_content"
         tools:ignore="RtlHardcoded">
 
         <LinearLayout
@@ -32,30 +33,40 @@
 
             <TextView
                 android:id="@+id/news_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:maxLines="1"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                tools:text="@string/news_title"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content" />
+                tools:text="@string/news_title" />
 
             <TextView
                 android:id="@+id/news_datetime"
-                android:textSize="14sp"
-                tools:text="@string/news_date"
-                android:paddingLeft="16dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:ignore="RtlSymmetry" />
+                android:paddingLeft="16dp"
+                android:textSize="14sp"
+                tools:ignore="RtlSymmetry"
+                tools:text="@string/news_date" />
 
         </LinearLayout>
-                <TextView
-                    android:id="@+id/news_excerpt"
-                    tools:text="@string/news_excerpt"
-                    android:maxLines="2"
-                    android:textSize="14sp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/news_excerpt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:textSize="14sp"
+            tools:text="@string/news_excerpt" />
+
+        <TextView
+            android:id="@+id/news_source"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:textSize="14sp"
+            tools:text="@string/news_source" />
 
     </LinearLayout>
 

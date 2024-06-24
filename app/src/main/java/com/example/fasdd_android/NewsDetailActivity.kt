@@ -1,29 +1,32 @@
 package com.example.fasdd_android
 
 import android.annotation.SuppressLint
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.ImageView
-import android.widget.TextView
-import com.bumptech.glide.Glide
+import android.webkit.WebView
+import android.webkit.WebViewClient
+import androidx.appcompat.app.AppCompatActivity
+import java.util.Objects
 
 class NewsDetailActivity : AppCompatActivity() {
-    @SuppressLint("MissingInflatedId")
+
+    companion object {
+        const val EXTRA_TITLE = "extra_title"
+        const val EXTRA_CONTENT = "extra_content"
+        const val EXTRA_IMAGE = "extra_image"
+        const val EXTRA_URL = "extra_url"
+    }
+    private var webView: WebView? = null
+
+    @SuppressLint("SetJavaScriptEnabled", "MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_news)
 
-        val news = intent.getParcelableExtra<News>("News")
+        webView = findViewById(R.id.webView)
+        webView?.webViewClient = WebViewClient()
+        webView?.settings?.javaScriptEnabled = true
 
-        val titleTextView = findViewById<TextView>(R.id.news_title)
-        val contentTextView = findViewById<TextView>(R.id.news_content)
-        val imageView = findViewById<ImageView>(R.id.news_image)
-
-        titleTextView.text = news?.title
-        contentTextView.text = news?.content
-
-        Glide.with(this)
-            .load(news?.image)
-            .into(imageView)
+        val url = intent.getStringExtra(EXTRA_URL)
+        webView?.loadUrl(url.toString())
     }
 }
