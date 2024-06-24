@@ -132,7 +132,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun getNewsListNew() {
-        val q = "petani"
+        val q = "petani "
         val apikey = "65d438ffae89424393321f74b0be3786"
         val client = ApiConfig.getApiService().getEverything(q,apikey)
         client.enqueue(object:retrofit2.Callback<ResponseNews>{
