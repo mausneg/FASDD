@@ -9,6 +9,6 @@ import java.util.Date
 data class Weather(
     val location: String,
     val temperature: String,
-    val time: LocalTime,
+    val time: String,
     val type: String,
 ) : Parcelable

@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -29,7 +30,7 @@ import kotlin.random.Random
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Calendar
-
+import com.bumptech.glide.Glide
 data class Location(
     val name: String,
     val region: String,
@@ -163,26 +164,21 @@ class WeatherActivity : AppCompatActivity() {
 
     private fun updateWeatherUI(forecast: ForecastResponse) {
         binding.temp.text = "${forecast.current.temp_c}°C"
-//        binding.condition.text = forecast.current.condition.text
-        binding.ivWeather.setImageResource(
-            when (forecast.current.condition.text.toLowerCase()) {
-                "sunny" -> R.drawable.ic_card_weather_sunny
-                "cloudy" -> R.drawable.ic_card_weather_cloudy
-                "rainy" -> R.drawable.ic_card_weather_rainy
-                else -> R.drawable.ic_card_weather_sunny
-            }
-        )
+        val iconUrl = "https:" + "${forecast.current.condition.icon}"
+        Glide.with(this)
+            .load(iconUrl)
+            .into(binding.ivWeather)
         findViewById<TextView>(R.id.uvIndex).text = "${forecast.current.uv}"
         findViewById<TextView>(R.id.windSpeed).text = "${forecast.current.wind_kph} kph"
         findViewById<TextView>(R.id.humidity).text = "${forecast.current.humidity}%"
 
-        val hourlyForecast = forecast.forecast.forecastday[0].hour.take(5)
+        val hourlyForecast = forecast.forecast.forecastday[0].hour
         updateHourlyUI(hourlyForecast)
     }
     private fun updateHourlyUI(hourlyForecast: List<Hour>) {
         Log.d("check", "$hourlyForecast")
         val currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
-
+        Log.d("check", "$currentHour")
         var startIndex = 0
         for (i in hourlyForecast.indices) {
             val hourData = hourlyForecast[i]
@@ -195,19 +191,21 @@ class WeatherActivity : AppCompatActivity() {
         }
         Log.d("check", "$startIndex")
         Log.d("check", hourlyForecast.size.toString())
-        for (i in startIndex until hourlyForecast.size) {
-            val hourData = hourlyForecast[i]
+        for (i in 0..4) {
+            val hourData = hourlyForecast[i+startIndex+1]
 
             val timeView = findViewById<TextView>(resources.getIdentifier("hour${i + 1}Time", "id", packageName))
             val tempView = findViewById<TextView>(resources.getIdentifier("hour${i + 1}Temp", "id", packageName))
-            val conditionView = findViewById<TextView>(resources.getIdentifier("hour${i + 1}Condition", "id", packageName))
-
+            val imageView = findViewById<ImageView>(resources.getIdentifier("hour${i + 1}Condition", "id", packageName))
             val hour = hourData.time.split(" ")[1].substring(0, 5)
             Log.d("check", hour)
             Log.d("check", "hour${i + 1}Time")
             timeView.text = hour
             tempView.text = "${hourData.temp_c}°C"
-//            conditionView.text = hourData.condition.text
+            val iconUrl = "https:" + "${hourData.condition.icon}"
+            Glide.with(this)
+                .load(iconUrl)
+                .into(imageView)
             Log.d("check", "is made to last")
         }
     }
