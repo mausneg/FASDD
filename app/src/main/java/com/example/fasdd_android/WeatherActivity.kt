@@ -36,7 +36,6 @@ data class Location(
     val region: String,
     val country: String
 )
-
 data class Condition(
     val text: String,
     val icon: String
@@ -112,7 +111,6 @@ class WeatherActivity : AppCompatActivity() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
         } else {
-            Log.d("check", "self permission allowed")
             getLocation()
         }
     }
@@ -125,7 +123,25 @@ class WeatherActivity : AppCompatActivity() {
 
         weatherApiService = retrofit.create(WeatherApiService::class.java)
     }
-
+    private fun getLocation() {
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return
+        }
+        fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+            location?.let {
+                val latitude = it.latitude
+                val longitude = it.longitude
+                getCityAndCountry(latitude, longitude)
+            }
+        }
+    }
     private fun getCityAndCountry(latitude: Double, longitude: Double) {
         val geocoder = Geocoder(this, Locale.getDefault())
         val addresses = geocoder.getFromLocation(latitude, longitude, 1)
@@ -136,9 +152,6 @@ class WeatherActivity : AppCompatActivity() {
         locationTextView.text = "$city"
         val locationNBegTextView = findViewById<TextView>(R.id.negara)
         locationNBegTextView.text = "$country"
-        Log.d("check", "location founded")
-        Log.d("check", "$city")
-
         fetchWeatherData("$latitude,$longitude")
     }
 
@@ -176,9 +189,7 @@ class WeatherActivity : AppCompatActivity() {
         updateHourlyUI(hourlyForecast)
     }
     private fun updateHourlyUI(hourlyForecast: List<Hour>) {
-        Log.d("check", "$hourlyForecast")
         val currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
-        Log.d("check", "$currentHour")
         var startIndex = 0
         for (i in hourlyForecast.indices) {
             val hourData = hourlyForecast[i]
@@ -189,8 +200,6 @@ class WeatherActivity : AppCompatActivity() {
                 break
             }
         }
-        Log.d("check", "$startIndex")
-        Log.d("check", hourlyForecast.size.toString())
         for (i in 0..4) {
             val hourData = hourlyForecast[i+startIndex+1]
 
@@ -198,40 +207,15 @@ class WeatherActivity : AppCompatActivity() {
             val tempView = findViewById<TextView>(resources.getIdentifier("hour${i + 1}Temp", "id", packageName))
             val imageView = findViewById<ImageView>(resources.getIdentifier("hour${i + 1}Condition", "id", packageName))
             val hour = hourData.time.split(" ")[1].substring(0, 5)
-            Log.d("check", hour)
-            Log.d("check", "hour${i + 1}Time")
             timeView.text = hour
             tempView.text = "${hourData.temp_c}°C"
             val iconUrl = "https:" + "${hourData.condition.icon}"
             Glide.with(this)
                 .load(iconUrl)
                 .into(imageView)
-            Log.d("check", "is made to last")
         }
     }
-    private fun getLocation() {
-        Log.d("check", "on getloc")
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            Log.d("check", "Permission Denied")
-            return
-        }
-        Log.d("check", "Permission Pass")
-        fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
-            Log.d("check", "$location?")
-            location?.let {
-                val latitude = it.latitude
-                val longitude = it.longitude
-                getCityAndCountry(latitude, longitude)
-            }
-        }
-    }
+
 
     private fun setupWeatherCard() {
         val weatherTypes = arrayOf("sunny", "cloudy", "rainy")
