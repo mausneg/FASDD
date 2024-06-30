@@ -273,8 +273,8 @@ class ScanFragment : Fragment() {
                                     .add(notificationData)
                                     .addOnSuccessListener { documentReference ->
                                         AlertDialog.Builder(requireContext())
-                                            .setTitle("Notification Added")
-                                            .setMessage("Your scan result has been successfully added to notifications.")
+                                            .setTitle("Scan Selesai")
+                                            .setMessage("Klik OK untuk melihat hasilnya!")
                                             .setPositiveButton("OK") { dialog, _ ->
                                                 dialog.dismiss()
 

@@ -64,16 +64,13 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     implementation ("com.github.bumptech.glide:glide:4.11.0")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.11.0:")
-<<<<<<<<< Temporary merge branch 1
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0")
-=========
     implementation ("org.tensorflow:tensorflow-lite:2.11.0")
     implementation ("org.tensorflow:tensorflow-lite-support:0.4.1")
     implementation ("org.tensorflow:tensorflow-lite-gpu:2.11.0")
     implementation ("com.google.firebase:firebase-ml-modeldownloader:25.0.0")
 
->>>>>>>>> Temporary merge branch 2
 }
