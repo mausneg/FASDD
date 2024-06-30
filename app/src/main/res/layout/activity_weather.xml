@@ -276,6 +276,7 @@
                     android:gravity="center"
                     />
                 <ImageView
+                    android:id="@+id/hour1Condition"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_bulan"
@@ -308,6 +309,7 @@
                     android:gravity="center"
                     />
                 <ImageView
+                    android:id="@+id/hour2Condition"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_bulan"
@@ -340,6 +342,7 @@
                     android:gravity="center"
                     />
                 <ImageView
+                    android:id="@+id/hour3Condition"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_bulan"
@@ -372,6 +375,7 @@
                     android:gravity="center"
                     />
                 <ImageView
+                    android:id="@+id/hour4Condition"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_bulan"
@@ -404,6 +408,7 @@
                     android:gravity="center"
                     />
                 <ImageView
+                    android:id="@+id/hour5Condition"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_bulan"

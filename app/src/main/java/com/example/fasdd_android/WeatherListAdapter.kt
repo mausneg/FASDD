@@ -35,22 +35,16 @@ class WeatherListAdapter(private val weatherList: ArrayList<Weather>): RecyclerV
         val view = LayoutInflater.from(parent.context).inflate(R.layout.card_weather_more, parent, false)
         return ViewHolder(view, weatherList)
     }
-    private fun getDrawableRes(weatherType: String): Int {
-        return when (weatherType) {
-            "sunny" -> R.drawable.ic_card_weather_sunny
-            "cloudy" -> R.drawable.ic_card_weather_cloudy
-            "rainy" -> R.drawable.ic_card_weather_rainy
-            else -> R.drawable.ic_card_weather_sunny
-        }
-    }
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val weather = weatherList[position]
         holder.temperature.text = weather.temperature
         holder.time.text = weather.time.toString()
         holder.location.text = weather.location
-        val drawableRes = getDrawableRes(weather.type)
-        holder.type.setImageResource(drawableRes)
+        val iconUrl = "https:" + weather.type
+        Glide.with(holder.itemView.context)
+            .load(iconUrl)
+            .into(holder.type)
 
     }
     override fun getItemCount(): Int {
