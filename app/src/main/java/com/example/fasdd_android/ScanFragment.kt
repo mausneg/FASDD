@@ -2,11 +2,13 @@ package com.example.fasdd_android
 
 import android.Manifest
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
+import android.app.AlertDialog
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -16,18 +18,28 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ml.modeldownloader.CustomModelDownloadConditions
 import com.google.firebase.ml.modeldownloader.DownloadType
 import com.google.firebase.ml.modeldownloader.FirebaseModelDownloader
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import org.tensorflow.lite.Interpreter
-import org.tensorflow.lite.support.image.TensorImage
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
+import org.tensorflow.lite.DataType
 import java.io.ByteArrayOutputStream
+import java.nio.ByteBuffer
+import java.nio.ByteOrder
+import java.text.SimpleDateFormat
+import java.util.*
 
 class ScanFragment : Fragment() {
 
     companion object {
         private const val REQUEST_CAMERA_PERMISSION = 1
+        private const val IMAGE_SIZE = 150 // Change this to the size expected by your model
+        private const val MODEL_INPUT_SIZE = IMAGE_SIZE * IMAGE_SIZE * 3 // RGB image
+        private const val TAG = "ScanFragment"
     }
 
     private lateinit var selectedPlant: String
@@ -35,8 +47,7 @@ class ScanFragment : Fragment() {
     private val takePicture = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             val imageData = result.data?.extras?.get("data") as Bitmap
-            predictImage(imageData)
-            sendImageToResultActivity(imageData)
+            uploadImageToStorage(imageData)
         }
     }
 
@@ -139,7 +150,27 @@ class ScanFragment : Fragment() {
         }
     }
 
-    private fun predictImage(image: Bitmap) {
+    private fun uploadImageToStorage(image: Bitmap) {
+        val storage = FirebaseStorage.getInstance()
+        val storageRef = storage.reference
+        val imagesRef = storageRef.child("history/${UUID.randomUUID()}.png")
+
+        val baos = ByteArrayOutputStream()
+        image.compress(Bitmap.CompressFormat.PNG, 100, baos)
+        val data = baos.toByteArray()
+
+        val uploadTask = imagesRef.putBytes(data)
+        uploadTask.addOnSuccessListener {
+            imagesRef.downloadUrl.addOnSuccessListener { uri ->
+                val imageUrl = uri.toString()
+                predictImage(image, imageUrl)
+            }
+        }.addOnFailureListener {
+            Toast.makeText(requireContext(), "Failed to upload image", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun predictImage(image: Bitmap, imageUrl: String) {
         val modelName = getModelName(selectedPlant)
         FirebaseModelDownloader.getInstance()
             .getModel(modelName, DownloadType.LOCAL_MODEL, CustomModelDownloadConditions.Builder().requireWifi().build())
@@ -149,12 +180,18 @@ class ScanFragment : Fragment() {
                     if (modelFile != null) {
                         try {
                             val interpreter = Interpreter(modelFile)
-                            val input = TensorImage.fromBitmap(image)
-                            val output = TensorBuffer.createFixedSize(intArrayOf(1, 1), org.tensorflow.lite.DataType.FLOAT32)
-                            interpreter.run(input.buffer, output.buffer)
-                            val prediction = output.floatArray[0]
-                            Log.d("ScanFragment", "Prediction: $prediction")
-                            showPrediction(prediction)
+                            val resizedImage = Bitmap.createScaledBitmap(image, IMAGE_SIZE, IMAGE_SIZE, true)
+                            val byteBuffer = convertBitmapToByteBuffer(resizedImage)
+                            val output = TensorBuffer.createFixedSize(intArrayOf(1, 4), DataType.FLOAT32)
+                            interpreter.run(byteBuffer, output.buffer)
+                            val prediction = output.floatArray
+                            Log.d("ScanFragment", "Prediction: ${prediction.contentToString()}")
+
+                            val maxIndex = prediction.indices.maxByOrNull { prediction[it] } ?: -1
+
+                            val predictedClass = mapPredictionToClass(selectedPlant, maxIndex)
+
+                            saveScanResult(image, predictedClass, imageUrl)
                         } catch (e: Exception) {
                             Log.e("ScanFragment", "Error running model inference: ${e.message}", e)
                         }
@@ -167,20 +204,132 @@ class ScanFragment : Fragment() {
             }
     }
 
-    private fun showPrediction(prediction: Float) {
-        val intent = Intent(requireContext(), ImageResultActivity::class.java).apply {
-            putExtra("prediction", prediction.toString())
+    private fun convertBitmapToByteBuffer(bitmap: Bitmap): ByteBuffer {
+        val byteBuffer = ByteBuffer.allocateDirect(MODEL_INPUT_SIZE * 4)
+        byteBuffer.order(ByteOrder.nativeOrder())
+        val intValues = IntArray(IMAGE_SIZE * IMAGE_SIZE)
+        bitmap.getPixels(intValues, 0, bitmap.width, 0, 0, bitmap.width, bitmap.height)
+        var pixel = 0
+        for (i in 0 until IMAGE_SIZE) {
+            for (j in 0 until IMAGE_SIZE) {
+                val value = intValues[pixel++]
+                byteBuffer.putFloat(((value shr 16) and 0xFF) / 255.0f)
+                byteBuffer.putFloat(((value shr 8) and 0xFF) / 255.0f)
+                byteBuffer.putFloat((value and 0xFF) / 255.0f)
+            }
         }
-        startActivity(intent)
+        return byteBuffer
     }
 
-    private fun sendImageToResultActivity(imageData: Bitmap) {
-        val intent = Intent(requireContext(), ImageResultActivity::class.java).apply {
-            val stream = ByteArrayOutputStream()
-            imageData.compress(Bitmap.CompressFormat.PNG, 100, stream)
-            val byteArray = stream.toByteArray()
-            putExtra("image", byteArray)
+    private fun saveScanResult(image: Bitmap, predictedClass: String, imageUrl: String) {
+        val sharedPreferences = requireActivity().getSharedPreferences("user_id", Context.MODE_PRIVATE)
+        val userId = sharedPreferences.getString("user_id", null)
+        val currentDateTime = Date()
+
+        if (userId != null) {
+            val db = FirebaseFirestore.getInstance()
+
+            val userDocumentRef = db.document("users/$userId")
+
+            // Query diseases collection to find matching disease by name_of_disease
+            db.collection("diseases")
+                .whereEqualTo("name_of_disease", predictedClass)
+                .get()
+                .addOnSuccessListener { querySnapshot ->
+                    if (querySnapshot.isEmpty) {
+                        Log.d(TAG, "No disease found for prediction: $predictedClass")
+                        // Handle jika tidak ditemukan penyakit
+                    } else {
+                        // Ambil dokumen pertama yang cocok
+                        val diseaseDocument = querySnapshot.documents[0]
+                        val solution = diseaseDocument.getString("solution_of_diseases")
+
+                        // Save scan result to 'histories' collection
+                        val historyData = hashMapOf(
+                            "user_id" to userDocumentRef,
+                            "plant_name" to selectedPlant,
+                            "predicted_class" to predictedClass,
+                            "image_url" to imageUrl,
+                            "datetime" to currentDateTime,
+                            "solution" to solution  // tambahkan solution ke data history
+                        )
+
+                        db.collection("histories")
+                            .add(historyData)
+                            .addOnSuccessListener { historyDocumentReference ->
+                                val historyDocumentRef = db.document("histories/${historyDocumentReference.id}")
+
+                                // Save notification to 'notifications' collection
+                                val notificationData = hashMapOf(
+                                    "user_id" to userDocumentRef,
+                                    "type" to predictedClass,
+                                    "datetime" to currentDateTime,
+                                    "image_url" to imageUrl,
+                                    "already_read" to false,
+                                    "history_id" to historyDocumentRef
+                                )
+
+                                db.collection("notifications")
+                                    .add(notificationData)
+                                    .addOnSuccessListener { documentReference ->
+                                        AlertDialog.Builder(requireContext())
+                                            .setTitle("Scan Selesai")
+                                            .setMessage("Klik OK untuk melihat hasilnya!")
+                                            .setPositiveButton("OK") { dialog, _ ->
+                                                dialog.dismiss()
+
+                                                val intent = Intent(requireContext(), ImageResultActivity::class.java).apply {
+                                                    putExtra("image", imageUrl)
+                                                    putExtra("predictionClass", predictedClass)
+                                                    putExtra("plantName", selectedPlant)
+                                                }
+                                                startActivity(intent)
+                                            }
+                                            .show()
+                                    }
+                                    .addOnFailureListener { e ->
+                                        Log.w(TAG, "Error adding notification document", e)
+                                        Toast.makeText(requireContext(), "Failed to add notification", Toast.LENGTH_SHORT).show()
+                                    }
+                            }
+                            .addOnFailureListener { e ->
+                                Log.w(TAG, "Error adding history document", e)
+                                Toast.makeText(requireContext(), "Failed to save scan result", Toast.LENGTH_SHORT).show()
+                            }
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    Log.e(TAG, "Error querying diseases collection: $exception")
+                    Toast.makeText(requireContext(), "Failed to query diseases", Toast.LENGTH_SHORT).show()
+                }
+        } else {
+            Log.e(TAG, "User ID is null, cannot save notification.")
         }
-        startActivity(intent)
+    }
+
+
+    private fun mapPredictionToClass(plantName: String, prediction: Int): String {
+        return when (plantName) {
+            "Jagung" -> when (prediction) {
+                0 -> "Corn Common Rust"
+                1 -> "Corn Gray Leaf Spot"
+                2 -> "Corn Healthy"
+                3 -> "Corn Northern Leaf Blight"
+                else -> "Unknown"
+            }
+            "Padi" -> when (prediction) {
+                0 -> "Rice Brown Spot"
+                1 -> "Rice Healthy"
+                2 -> "Rice Hispa"
+                3 -> "Rice Leaf Blast"
+                else -> "Unknown"
+            }
+            "Strawberry" -> when (prediction) {
+                0 -> "Strawberry Healthy"
+                1 -> "Strawberry Leaf Scorch"
+                else -> "Unknown"
+            }
+            else -> "Unknown"
+        }
     }
 }
