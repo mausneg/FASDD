@@ -1,6 +1,5 @@
 package com.example.fasdd_android
 
-import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Build
@@ -14,23 +13,20 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fasdd_android.databinding.FragmentNotifBinding
-import com.google.android.material.badge.BadgeDrawable
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withContext
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.Locale
-
+import java.util.*
 
 class NotifFragment : Fragment() {
+
     private lateinit var binding: FragmentNotifBinding
     private val notifList = ArrayList<Notif>()
     private lateinit var db: FirebaseFirestore
     private lateinit var sharedPreferences: SharedPreferences
-
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
@@ -47,37 +43,42 @@ class NotifFragment : Fragment() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun getNotifList() {
+    private suspend fun getNotifList() {
         val userId = sharedPreferences.getString("user_id", null)
-        val userRef = db.collection("users").document(userId!!)
-        db.collection("notifications")
-            .whereEqualTo("user_id", userRef)
-            .addSnapshotListener { snapshots, e ->
-                if (e != null) {
-                    Log.w(TAG, "listen:error", e)
-                    return@addSnapshotListener
-                }
+        if (userId != null) {
+            val userRef = db.collection("users").document(userId)
+            db.collection("notifications")
+                .whereEqualTo("user_id", userRef)
+                .addSnapshotListener { snapshots, e ->
+                    if (e != null) {
+                        //Log.w(TAG, "listen:error", e)
+                        return@addSnapshotListener
+                    }
 
-                notifList.clear()
-                for (document in snapshots!!) {
-                    val id = document.id
-                    val type = document.getString("type") ?: ""
-                    val dateTimeStr = document.getDate("datetime") ?: ""
-                    val alreadyRead = document.getBoolean("already_read") ?: false
-                    val formatter = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH)
-                    val dateTime = LocalDateTime.parse(dateTimeStr.toString(), formatter)
-                    val notif = Notif(id, type, dateTime, alreadyRead)
-                    notifList.add(notif)
+                    notifList.clear()
+                    snapshots?.forEach { document ->
+                        try {
+                            val id = document.id
+                            val type = document.getString("type") ?: ""
+                            val dateTimeStr = document.getDate("datetime")
+                            val alreadyRead = document.getBoolean("already_read") ?: false
+                            val formatter = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH)
+                            val dateTime = LocalDateTime.parse(dateTimeStr.toString(), formatter)
+                            val notif = Notif(id, type, dateTime, alreadyRead)
+                            notifList.add(notif)
+                        } catch (ex: Exception) {
+                            //Log.e(TAG, "Error parsing notification", ex)
+                        }
+                    }
+                    showNewsList()
                 }
-                showNewsList()
-            }
+        }
     }
 
     private fun showNewsList() {
         val notifListAdapter = NotifListAdapter(notifList)
         binding.contentNotif.layoutManager = LinearLayoutManager(context)
         binding.contentNotif.adapter = notifListAdapter
-
     }
 
 }

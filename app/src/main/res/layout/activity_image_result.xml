@@ -60,7 +60,7 @@
         android:layout_below="@id/titleTextView"
         android:layout_marginTop="16dp"
         android:padding="16dp"
-        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum sagittis nunc et arcu aliquam, at tempor lorem fringilla. Integer vehicula posuere nulla, et ultrices nisl luctus sit amet."
-        android:textSize="14sp" />
+        android:text="Solution"
+        android:textSize="16sp" />
 
 </RelativeLayout>
