@@ -4,5 +4,6 @@ data class HistoryItem(
     val imageUrl: String,
     val plantName: String,
     val predictedClass: String,
-    val dateTime: String
+    val dateTime: String,
+    val solution: String
 )
