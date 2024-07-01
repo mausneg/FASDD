@@ -49,10 +49,8 @@ class ImageResultActivity : AppCompatActivity() {
         val predictionClass = intent.getStringExtra("predictionClass")
         titleTextView.text = predictionClass ?: "Prediction class not available"
 
-        // Retrieve solution of disease
-        if (predictionClass != null) {
-            fetchSolutionOfDisease(predictionClass)
-        }
+        val solution = intent.getStringExtra("solution")
+        descriptionTextView.text = solution ?: "Solution not available"
 
         // Back to camera button click listener
         backToCameraButton.setOnClickListener {
@@ -67,44 +65,12 @@ class ImageResultActivity : AppCompatActivity() {
 
     private fun fetchImageFromStorage(imageUrl: String) {
         val storageRef = FirebaseStorage.getInstance().getReferenceFromUrl(imageUrl)
-
         storageRef.getBytes(Long.MAX_VALUE).addOnSuccessListener { bytes ->
             val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
             imageView.setImageBitmap(bitmap)
         }.addOnFailureListener { e ->
             Log.e("ImageResultActivity", "Error downloading image: $e")
         }
-    }
-
-    private fun fetchSolutionOfDisease(predictionClass: String) {
-        Log.d("ImageResultActivity", "Fetching solution for disease: $predictionClass")
-
-        val db = FirebaseFirestore.getInstance()
-
-        db.collection("disease")
-            .whereEqualTo("name_of_disease", predictionClass)
-            .get()
-            .addOnSuccessListener { documents ->
-                if (!documents.isEmpty) {
-                    for (document in documents) {
-                        val solution = document.getString("solution_of_diseases")
-                        if (solution != null) {
-                            Log.d("ImageResultActivity", "Fetched solution: $solution")
-                            descriptionTextView.text = solution
-                            return@addOnSuccessListener
-                        }
-                    }
-                    Log.e("ImageResultActivity", "Solution not found for $predictionClass")
-                    descriptionTextView.text = "Solution not available"
-                } else {
-                    Log.e("ImageResultActivity", "Document for $predictionClass not found")
-                    descriptionTextView.text = "Solution not available"
-                }
-            }
-            .addOnFailureListener { exception ->
-                Log.e("ImageResultActivity", "Error fetching solution: $exception")
-                descriptionTextView.text = "Solution not available"
-            }
     }
 
     private fun navigateToHistoryActivity() {

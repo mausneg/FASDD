@@ -11,7 +11,7 @@ import com.google.firebase.storage.FirebaseStorage
 
 class HistoryAdapter(
     private val historyList: List<HistoryItem>,
-    private val onItemClick: (String, String, String) -> Unit
+    private val onItemClick: (String, String, String, String) -> Unit
 ) : RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryViewHolder {
@@ -23,7 +23,7 @@ class HistoryAdapter(
         val historyItem = historyList[position]
         holder.bind(historyItem)
         holder.itemView.setOnClickListener {
-            onItemClick(historyItem.imageUrl, historyItem.plantName, historyItem.predictedClass)
+            onItemClick(historyItem.imageUrl, historyItem.plantName, historyItem.predictedClass, historyItem.solution)
         }
     }
 

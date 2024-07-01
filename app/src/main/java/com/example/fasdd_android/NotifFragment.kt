@@ -70,12 +70,13 @@ class NotifFragment : Fragment() {
                             //Log.e(TAG, "Error parsing notification", ex)
                         }
                     }
-                    showNewsList()
+                    showNotifList()
                 }
         }
     }
 
-    private fun showNewsList() {
+    private fun showNotifList() {
+        notifList.sortWith(compareByDescending { it.dateTime })
         val notifListAdapter = NotifListAdapter(notifList)
         binding.contentNotif.layoutManager = LinearLayoutManager(context)
         binding.contentNotif.adapter = notifListAdapter

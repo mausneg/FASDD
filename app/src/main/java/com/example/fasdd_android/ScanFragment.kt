@@ -282,6 +282,7 @@ class ScanFragment : Fragment() {
                                                     putExtra("image", imageUrl)
                                                     putExtra("predictionClass", predictedClass)
                                                     putExtra("plantName", selectedPlant)
+                                                    putExtra("solution", solution)
                                                 }
                                                 startActivity(intent)
                                             }

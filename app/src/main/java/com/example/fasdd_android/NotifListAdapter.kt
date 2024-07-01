@@ -2,6 +2,7 @@ package com.example.fasdd_android
 
 import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
@@ -19,6 +20,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import java.time.Duration
 import java.time.LocalDateTime
 import java.time.Period
+import java.util.Locale
 
 class NotifListAdapter(private val notifList: ArrayList<Notif>): RecyclerView.Adapter<NotifListAdapter.ViewHolder>() {
     class ViewHolder(itemView: View,private val notifList: ArrayList<Notif>) : RecyclerView.ViewHolder(itemView) {
@@ -44,9 +46,37 @@ class NotifListAdapter(private val notifList: ArrayList<Notif>): RecyclerView.Ad
                             Log.w(TAG, "Error updating document", e)
                         }
                 }
+                val intent = Intent(itemView.context, ImageResultActivity::class.java)
+                val db = FirebaseFirestore.getInstance()
+
+                db.collection("notifications")
+                    .document(notif.id)
+                    .get()
+                    .addOnSuccessListener { document ->
+                        val historyRef = document.getDocumentReference("history_id")
+                        if (historyRef != null) {
+                            db.document(historyRef.path).get()
+                                .addOnSuccessListener { historyDocument ->
+                                    val plantName = historyDocument.getString("plant_name") ?: ""
+                                    val predictedClass = historyDocument.getString("predicted_class") ?: ""
+                                    val imageUrl = historyDocument.getString("image_url") ?: ""
+                                    val solution = historyDocument.getString("solution") ?: ""
+
+                                    intent.putExtra("image", imageUrl)
+                                    intent.putExtra("predictionClass", predictedClass)
+                                    intent.putExtra("plantName", plantName)
+                                    intent.putExtra("solution", solution)
+                                    itemView.context.startActivity(intent)
+                                }
+                        }
+                    }
+                    .addOnFailureListener { exception ->
+                        Log.e("HistoryActivity", "Error getting documents: $exception")
+                    }
             }
         }
     }
+
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

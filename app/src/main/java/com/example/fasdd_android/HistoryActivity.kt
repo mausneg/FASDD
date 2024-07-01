@@ -11,12 +11,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
 import java.util.*
+import android.content.SharedPreferences
 
 class HistoryActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var emptyHistoryTextView: TextView
     private lateinit var backToCameraButton: Button
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,9 +26,9 @@ class HistoryActivity : AppCompatActivity() {
 
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
-
         emptyHistoryTextView = findViewById(R.id.emptyHistoryTextView)
         backToCameraButton = findViewById(R.id.backToCameraButton)
+        sharedPreferences = getSharedPreferences("user_id", MODE_PRIVATE)
 
         // Back button to camera
         backToCameraButton.setOnClickListener {
@@ -40,9 +42,11 @@ class HistoryActivity : AppCompatActivity() {
     }
 
     private fun fetchHistoryFromFirestore() {
+        val userId = sharedPreferences.getString("user_id", null)
         val db = FirebaseFirestore.getInstance()
 
         db.collection("histories")
+            .whereEqualTo("user_id", db.document("/users/$userId"))
             .get()
             .addOnSuccessListener { result ->
                 val historyList = mutableListOf<HistoryItem>()
@@ -55,8 +59,9 @@ class HistoryActivity : AppCompatActivity() {
                         SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(it)
                     } ?: "Unknown"
                     val imageUrl = document.getString("image_url") ?: ""
+                    val solution = document.getString("solution") ?: ""
 
-                    val historyItem = HistoryItem(imageUrl, plantName, predictedClass, formattedDateTime)
+                    val historyItem = HistoryItem(imageUrl, plantName, predictedClass, formattedDateTime,  solution)
                     historyList.add(historyItem)
                 }
 
@@ -68,8 +73,8 @@ class HistoryActivity : AppCompatActivity() {
     }
 
     private fun updateRecyclerView(historyList: List<HistoryItem>) {
-        val adapter = HistoryAdapter(historyList) { imageUrl, plantName, predictedClass ->
-            navigateToImageResultActivity(imageUrl, plantName, predictedClass)
+        val adapter = HistoryAdapter(historyList) { imageUrl, plantName, predictedClass, solution  ->
+            navigateToImageResultActivity(imageUrl, plantName, predictedClass, solution)
         }
         recyclerView.adapter = adapter
 
@@ -83,11 +88,12 @@ class HistoryActivity : AppCompatActivity() {
         }
     }
 
-    private fun navigateToImageResultActivity(imageUrl: String, plantName: String, predictedClass: String) {
+    private fun navigateToImageResultActivity(imageUrl: String, plantName: String, predictedClass: String, solution: String) {
         val intent = Intent(this, ImageResultActivity::class.java).apply {
             putExtra("image", imageUrl)
             putExtra("predictionClass", predictedClass)
             putExtra("plantName", plantName)
+            putExtra("solution", solution)
         }
         startActivity(intent)
     }
